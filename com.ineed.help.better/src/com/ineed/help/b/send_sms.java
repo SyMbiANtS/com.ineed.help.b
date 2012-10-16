@@ -6,12 +6,15 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.ineed.help.a.R;
-
+import com.ineed.help.b.R;
+import com.ineed.help.b.aLocationL;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.app.PendingIntent;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -28,16 +31,10 @@ import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.support.v4.app.NotificationCompat.Action;
 import android.telephony.*;
 import android.text.format.Time;
 import android.view.ViewGroup.LayoutParams;
 import android.util.Log;
-import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 
 
 
@@ -54,7 +51,7 @@ public class send_sms extends Activity
 	private int powerClick;
 	WindowManager.LayoutParams wmlp;
 	
-//	 LocationListener locationListener = new MyLocationListener();
+	aLocationL locationListener;
 
 
 @Override
@@ -146,7 +143,9 @@ public class send_sms extends Activity
 	      
 	      displayCurrentPhones();
 	      displayCurrentPhones();
-	      
+	     locationListener = new aLocationL();
+	     enableGps();
+	           
 		}
 
 
@@ -211,7 +210,59 @@ public class send_sms extends Activity
 	}
 
 
+	
+	public void ticTac(String isCoord)
+	{
+		
+		gpsLoc = isCoord;
+		 Toast.makeText( getApplicationContext(),
 
+				 "TACK "+isCoord,
+
+				 Toast.LENGTH_SHORT ).show();
+		 
+		 Timer gpsTi = new Timer();
+		 
+
+		 gpsTi.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				
+				
+				// TODO Auto-generated method stub
+				Toast.makeText( getApplicationContext(),
+
+						 "TICK "+gpsLoc,
+
+						 Toast.LENGTH_SHORT ).show();
+				
+			}
+		}, 22222);
+		 
+		
+		
+	}
+
+	public void gpsEnbled(boolean isGps)
+	{
+		String anyG = " no1 nose";
+		if ( isGps == true)
+		{
+			anyG ="Gps Enabled";
+		 
+		}
+		else
+		{
+			anyG ="Gps Disabled";
+		}
+		
+		Toast.makeText( getApplicationContext(), anyG, Toast.LENGTH_SHORT ).show();
+	}
+	
+	
+	
+	
 	//public void onBackPressed()   
    // {  
         //do whatever you want the 'Back' button to do  
@@ -500,26 +551,35 @@ public class send_sms extends Activity
 	  }
 	 
 /*	 
-	 public void enableGps()
-	 {
-		 
-		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		   	Location loc = new Location(LocationManager.GPS_PROVIDER);
-        	loc.setLatitude(0.0);
-        	loc.setAltitude(0.0);
-        	loc.setTime(System.currentTimeMillis());
-        	
-        	lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
-        	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
-        	lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 33333, 11, locationListener);
-		 
-	 }
+
 	 
 	*/
 
 			 
 
-		//	 mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+
+	 public void enableGps()
+	 {
+		 
+		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		   	Location loc = new Location(LocationManager.GPS_PROVIDER);
+       	loc.setLatitude(0.0);
+       	loc.setAltitude(0.0);
+       	loc.setTime(System.currentTimeMillis());
+       	
+     //  	lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+      // 	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
+       	lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 33333, 11, this.locationListener);
+       	
+       	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+       	
+       	gpsLoc = loc.toString();
+       	
+       	Toast.makeText( getApplicationContext(), 
+       			gpsLoc, 
+       			Toast.LENGTH_SHORT ).show();
+		 
+	 }
 	 
 	 
 	 
@@ -531,95 +591,6 @@ public class send_sms extends Activity
 //        SmsManager sms = SmsManager.getDefault();
 //        sms.sendTextMessage(phoneNumber, null, message, pi, null);        
 //    } 
-			 public class MyLocationListener implements LocationListener
-
-			 {
-
-			 @Override
-
-			 public void onLocationChanged(Location loc)
-
-			 {
-			
-
-			
-
-			 String Text = "GPS location is: " +
-
-			 "Lati = " + loc.getLatitude() +
-
-			 " Longi = " + loc.getLongitude();
-
-			
-			 
-			 gpsLoc = Text;
-			 
-			 Toast.makeText( getApplicationContext(),
-
-					 "TACK "+Text,
-
-					 Toast.LENGTH_SHORT ).show();
-			 
-			 Timer gpsTi = new Timer();
-			 
-
-			 gpsTi.schedule(new TimerTask() {
-				
-				@Override
-				public void run() {
-					
-					
-					// TODO Auto-generated method stub
-					Toast.makeText( getApplicationContext(),
-
-							 "TICK "+gpsLoc,
-
-							 Toast.LENGTH_SHORT ).show();
-					
-				}
-			}, 22222);
-			 
-			
-
-			 }
-
-			 @Override
-
-			 public void onProviderDisabled(String provider)
-
-			 {
-
-			 Toast.makeText( getApplicationContext(),
-
-			 "Gps Disabled",
-
-			 Toast.LENGTH_SHORT ).show();
-
-			 }
-
-			 @Override
-
-			 public void onProviderEnabled(String provider)
-
-			 {
-
-			 Toast.makeText( getApplicationContext(),
-
-			 "Gps Enabled",
-
-			 Toast.LENGTH_SHORT).show();
-
-			 }
-
-			 @Override
-
-			 public void onStatusChanged(String provider, int status, Bundle extras)
-
-			 {
-
-			 }
-
-			 }/* End of Class MyLocationListener */
 			 
 			 
 			 

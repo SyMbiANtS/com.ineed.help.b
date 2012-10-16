@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.ineed.help.a.R;
+import com.ineed.help.b.R;
 
 import android.app.Activity;
 import android.app.ActivityManager;
