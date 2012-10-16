@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+       <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:gravity="fill"
+                >
+
+</TabWidget>
+        
+    
+     <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:id="@+id/tab1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" 
+                >
+
+                <TableLayout
+                    android:id="@+id/table_screen1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" >
+
+                        <Spinner
+                            android:id="@+id/spinner1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" >
+
+                        
+                        <ToggleButton
+                            
+                            android:id="@+id/toggleButton1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@+string/app_toggleButton1"
+                            android:textOff="@+string/app_toggleButton1Off"
+                            android:textOn="@+string/app_toggleButton1On" 
+                            
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" >
+
+                        <EditText
+                            android:id="@+id/editText1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            
+                            android:inputType="phone"
+                            
+                            android:singleLine="true"
+                            android:text="@+string/default_phone_number" >
+
+                            <requestFocus />
+                        </EditText>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" >
+
+                        <Button
+                            android:id="@+id/btn_contact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@+string/open_contact" />
+               
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <QuickContactBadge
+                            android:id="@+id/quickContactBadge1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" >
+
+                    </TableRow>
+
+                    <Button
+                        android:id="@+id/button1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@+string/app_button1" />
+
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@+string/close_app_button" />
+
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <TableRow
+                        android:id="@+id/tableRow7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <EditText
+                            android:id="@+id/editText3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@+string/enter_sms_number"
+                            android:inputType="phone" 
+                            android:gravity="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <EditText
+                            android:id="@+id/editText2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine" 
+                            android:text="@+string/default_sms_text"
+                            android:gravity="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <Button
+                            android:id="@+id/button2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@+string/save_changes_text" 
+                            android:gravity="center" />
+             
+
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+            </LinearLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+   
+
+</TabHost>

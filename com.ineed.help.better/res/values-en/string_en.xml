@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HelpMe! All-A</string>
+    <string name="app_button1">HelpMe! extra button</string>
+    <string name="app_toggleButton1">iNeedHelp</string>
+    <string name="app_toggleButton1Off">Turn button (ON)</string>
+    <string name="app_toggleButton1On">Turn button (off)</string>
+    <string name="app_button_1">Send application to the background \n Button will not work</string>
+    <string name="extra_call">Extra Call \n Press and hold</string>
+    <string name="extra_call_phone">911</string>
+    <string name="enter_sms_number">Enter SMS number</string>
+    <string name="app_button2">HelpMe! extra button</string>
+    <string name="app_button3">HelpMe! extra button</string>
+    <string name="default_sms_text">iNeedHelp!:Something weird is happenning, i need help!</string>
+    <string name="default_phone_number">911</string>
+    <string name="bye_word">Be good!! cyaround! =)</string>
+    <string name="hello_word">HelpMe! extra button</string>
+    <string name="work_in_progress_word">HelpMe! extra button</string>
+    <string name="close_app_button">Close application</string>
+    <string name="check_button">HelpMe! extra button</string>
+    <string name="open_contact">Enter phone call number</string>
+    <string name="tab1_text">Phone</string>
+    <string name="tab2_text">SMS</string>
+    <string name="tab3_text">Internet</string>
+    <string name="save_changes_text">Enter SMS number and text \n in fields</string>
+    <string name="alrighty">Alrighty now?</string>
+    <string name="some_joke">Sup dude? got some metall?</string>
+    <string name="btn_active">Button activated!</string>
+    <string name="change_phone_text">HelpMe! extra button</string>
+    <string name="phone_name">You will \n call to</string>
+    <string name="weird_phone_name">You got WEiRD Number to CALL!!!</string>
+    <string name="wrong_phone_name">NO CALL NUMBER!!!</string>
+    <string name="send_name">You will \n send sms to</string>
+    <string name="weird_send_name">WRONG Number to send SMS!!!</string>
+    <string name="wrong_send_name">NO Number to send SMS!!!</string>
+</resources>
