@@ -15,6 +15,7 @@ import android.app.PendingIntent;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -562,23 +563,54 @@ public class send_sms extends Activity
 	 {
 		 
 		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		   	Location loc = new Location(LocationManager.GPS_PROVIDER);
+	/*	 Toast.makeText( getApplicationContext(), 
+        			lm.getAllProviders().toString(), 
+        			Toast.LENGTH_SHORT ).show();
+		 
+	*/	 
+	  //    	LocationProvider gps = LocationManager.getProvider(lm.GPS_PROVIDER);
+	       	if (lm.isProviderEnabled("gps") != true)
+	       	{
+	       		Toast.makeText( getApplicationContext(), 
+	           			"no gps provider", 
+	           			Toast.LENGTH_SHORT ).show();
+	       	}	
+	       	       	else
+	       	{
+	     lm.removeUpdates(locationListener);
+		 lm.setTestProviderEnabled("gps", true);
+		// Location loc = new Location();
+		 Location loc = lm.getLastKnownLocation("gps");
        	loc.setLatitude(0.0);
        	loc.setAltitude(0.0);
        	loc.setTime(System.currentTimeMillis());
        	
-     //  	lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+     //lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
       // 	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
-       	lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 33333, 11, this.locationListener);
+       	lm.requestLocationUpdates("gps", 3333, 11, this.locationListener);
        	
-       	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+      // 	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
        	
-       	gpsLoc = loc.toString();
+      // 	gpsLoc = loc.toString();
+      // lm. ;
+       	
+
+    
+   
+       	
+      // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
+       	this.locationListener.onLocationChanged(loc);
+       	
+       	gpsLoc = toString().valueOf(lm.getLastKnownLocation("gps")  ) ;
        	
        	Toast.makeText( getApplicationContext(), 
        			gpsLoc, 
        			Toast.LENGTH_SHORT ).show();
 		 
+	       	}
+	       	
+	       	
+	
 	 }
 	 
 	 

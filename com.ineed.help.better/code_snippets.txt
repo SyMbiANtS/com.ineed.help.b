@@ -1,6 +1,120 @@
+http://www.hascode.com/2010/05/sensor-fun-location-based-services-and-gps-for-android/
+
+private void showLocation() {
+		LocationProvider gps = locationManager.getProvider(PROVIDER);
+		if (gps == null) {
+			Log.w(TAG, "gps provider not found");
+			return;
+		}
+ 
+		locationManager.requestLocationUpdates(PROVIDER, 1200, 5, this);
+		Log.d(TAG, "listening to gps events started");
+	}
+
+http://stackoverflow.com/questions/7333073/locationmanager-will-not-return-destination
+public class Activity1 extends Activity implements LocationListener {
+/** Called when the activity is first created. */
+JoshTwoActivity main;
+Activity2 two;
+boolean checkTick = false;
+String locationplace = "";
+private LocationManager locationManager;
+private String provider;
+
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+
+               locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+    Criteria criteria = new Criteria();
+    provider = locationManager.getBestProvider(criteria, false);
+    System.out.println(provider);
+    System.out.println(locationManager.getProviders(criteria, false));
+    System.out.println(locationManager.getProvider("network"));
+    System.out.println(locationManager.getAllProviders());
+
+    Location location = locationManager.getLastKnownLocation(provider);
+    System.out.println(locationManager.isProviderEnabled(provider));
+
+    // Initialize the location fields
+    if (location != null) {
+        System.out.println("Provider " + provider + " has been selected.");
+        int lat = (int) (location.getLatitude());
+        int lng = (int) (location.getLongitude());
+        System.out.println(String.valueOf(lat));
+        System.out.println(String.valueOf(lng));
+
+    } else {
+        System.out.println("Provider not available");
+        System.out.println("Provider not available");
+    }
+
+}
+
+
+/* Request updates at startup */
+@Override
+protected void onResume() {
+    super.onResume();
+    locationManager.requestLocationUpdates(provider, 400, 1, this);
+}
+
+/* Remove the locationlistener updates when Activity is paused */
+@Override
+protected void onPause() {
+    super.onPause();
+    locationManager.removeUpdates(this);
+}
+
+@Override
+public void onLocationChanged(Location location) {
+    int lat = (int) (location.getLatitude());
+    int lng = (int) (location.getLongitude());
+    System.out.println(String.valueOf(lat));
+    System.out.println(String.valueOf(lng));
+}
+
+@Override
+public void onStatusChanged(String provider, int status, Bundle extras) {
+    // TODO Auto-generated method stub
+
+}
+
+@Override
+public void onProviderEnabled(String provider) {
+    Toast.makeText(this, "Enabled new provider " + provider,
+            Toast.LENGTH_SHORT).show();
+
+}
+
+@Override
+public void onProviderDisabled(String provider) {
+    Toast.makeText(this, "Disenabled provider " + provider,
+            Toast.LENGTH_SHORT).show();
+}
+
+
+Comment 19 by a.wirayu...@gmail.com, Jul 4, 2009
+http://code.google.com/p/android/issues/detail?id=2545
+
+
+public class DeviceLocationListener implements LocationListener {
+		public void onLocationChanged(Location location) {
+			mLocationManager.removeUpdates(locationListener);
+			mLocationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        3000,
+                        1,
+                        locationListener);
+		}
+}
+
+
+
 http://stackoverflow.com/questions/10077905/override-power-button-just-like-home-button
-
-
 
 // start using mock locations
 try {
