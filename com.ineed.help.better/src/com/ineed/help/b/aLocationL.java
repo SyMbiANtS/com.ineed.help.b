@@ -4,6 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import com.ineed.help.b.send_sms;
 import android.content.Context;
+import android.content.Intent;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,7 +14,7 @@ import android.widget.Toast;
 import android.location.Criteria;
 import android.app.Application;
 
-public class aLocationL implements LocationListener
+public class aLocationL extends Application implements LocationListener
 
 {
 	String gpsLoc;
@@ -29,8 +31,8 @@ public class aLocationL implements LocationListener
 
 	 {
 	
-
-	gotLoc = loc;
+		 
+	//gotLoc = loc;
 
 	 String Text = "GPS location is: " +
 
@@ -43,8 +45,8 @@ public class aLocationL implements LocationListener
 	 gpsLoc = Text;
 	 
 
-	 send_sms tost = new send_sms();
-	 tost.ticTac(gpsLoc);
+	// send_sms tost = new send_sms();
+	// tost.ticTac(gpsLoc);
 	 }
 
 	 @Override
@@ -53,9 +55,11 @@ public class aLocationL implements LocationListener
 
 	 {
 
-	
-		 send_sms tost = new send_sms();
-		 tost.gpsEnbled(false);
+		 
+	//	 warn_user_with_toast tost = warn_user_with_toast.;
+	//	 tost.gpsEnabled(false);
+//		 send_sms tost = new send_sms();
+	//	 tost.gpsEnabled(false);
 
 	 }
 
@@ -64,8 +68,11 @@ public class aLocationL implements LocationListener
 	 public void onProviderEnabled(String provider)
 
 	 {
-		 send_sms tost = new send_sms();
-		 tost.gpsEnbled(true);
+		 
+	//	 warn_user_with_toast tost = new warn_user_with_toast();
+	//	 tost.gpsEnabled(true);
+	//	 send_sms tost = new send_sms();
+	//	 tost.gpsEnabled(true);
 	
 
 	 }
@@ -80,10 +87,94 @@ public class aLocationL implements LocationListener
 		 
 	 }
 	 
-	 
+	 public String getGpsData()
+	 {
+		 String thisData = "oops, no gps data";
+		 
+		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	    	
+	    	
+	    	
+		// Criteria criteria = new Criteria();
+		 String gR = "gps";
+		 Location loc = lm.getLastKnownLocation(gR);
+	      	loc.setLatitude(0.0);
+	      	loc.setAltitude(0.0);
+	      	loc.setTime(System.currentTimeMillis());
+		 
+	     //	LocationProvider gps = lm.getProvider("gps");
+	     	
+	     	
+	     	
+	       	if (lm.isProviderEnabled(gR) != true)
+	       	{
+	       		Toast.makeText( getApplicationContext(), 
+	           			"no gps provider", 
+	           			Toast.LENGTH_SHORT ).show();
+	       		try
+	       		{
+	       		
+	       			
+	       			//    Intent myIntent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS );
+	       			//    startActivity(myIntent);
+	       			
 
-	 /* End of Class MyLocationListener */
+
+	       		 lm.removeUpdates(this);
+	    		 lm.requestLocationUpdates(gR, 44444, 3, this);
+	    		 
+	    
+	  	      	this.onLocationChanged(loc);
+	       			
+	       		}
+	       		catch (Exception e) 
+	       		{
+	       			Toast.makeText( getApplicationContext(), 
+		           			"GOT ERROR iNiT GPS "+ e.toString(), 
+		           			Toast.LENGTH_SHORT ).show();
+	       		}
+	       	}	
+	       	       	else
+	       	{
+	     lm.removeUpdates(this);
+		// lm.setTestProviderEnabled(gpsProvider, true);
+		 lm.requestLocationUpdates(gR, 44444, 3, this);
+
+	      	this.onLocationChanged(loc);
+	 //     	Location ewLoc = aloc.; 
+		// Location loc = new Location();
+		
+      	
+    //lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+     // 	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
+      	
+      	
+     // 	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+      	
+     // 	gpsLoc = loc.toString();
+     // lm. ;
+      	
+
+	    	
+  
+      	
+     // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
+       
+      	
+      	
+	       	}
+	      
+	       	thisData = "GPS|: Latitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getLatitude()  ) 
+	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getLongitude()  ) 
+	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getAltitude()  ) ;
+	      	
+	      	
+		 
+		 return thisData;
+	 }
+
+	 /* End of Class MyLocationListener http://b3d.mezon.ru/index.php/Blender_Basics_4-rd_edition/Chapter_3-_Creating_and_Editing_Objects
 	 
-	
+	*/
 
 }

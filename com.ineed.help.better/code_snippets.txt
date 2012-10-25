@@ -1,3 +1,38 @@
+
+http://developer.android.com/reference/android/app/Activity.html#finish%28%29
+
+public void finishActivityFromChild (Activity child, int requestCode)
+Since: API Level 1
+
+This is called when a child activity of this one calls its finishActivity().
+Parameters
+child 	The activity making the call.
+requestCode 	Request code that had been used to start the activity.
+public void finishAffinity ()
+Since: API Level 16
+
+Finish this activity as well as all activities immediately below it in the current task that have the same affinity. This is typically used when an application can be launched on to another task (such as from an ACTION_VIEW of a content type it understands) and the user has used the up navigation to switch out of the current task and in to its own task. In this case, if the user has navigated down into any other activities of the second application, all of those should be removed from the original task as part of the task switch.
+
+Note that this finish does not allow you to deliver results to the previous activity, and an exception will be thrown if you are trying to do so.
+
+public void finishFromChild (Activity child)
+Since: API Level 1
+
+This is called when a child activity of this one calls its finish() method. The default implementation simply calls finish() on this activity (the parent), finishing the entire group.
+Parameters
+child 	The activity making the call.
+See Also
+
+    finish()
+
+
+
+
+
+http://stackoverflow.com/questions/6894195/getting-android-location-and-return-unknown-or-null-when-providers-are-unavail
+
+
+
 http://www.hascode.com/2010/05/sensor-fun-location-based-services-and-gps-for-android/
 
 private void showLocation() {

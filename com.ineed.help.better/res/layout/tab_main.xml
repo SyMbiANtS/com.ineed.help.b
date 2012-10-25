@@ -177,6 +177,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine" 
                             android:text="@+string/default_sms_text"
+                            android:maxLength="160"
                             android:gravity="center" />
 
                     </TableRow>
@@ -209,6 +210,43 @@
                 android:id="@+id/tab3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" >
+
+                    <TableRow
+                        android:id="@+id/tableRow11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <Button
+                            android:id="@+id/buttonCheckGps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@+string/check_gps" 
+                             android:gravity="center"/>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
+                </TableLayout>
 
             </LinearLayout>
         </FrameLayout>

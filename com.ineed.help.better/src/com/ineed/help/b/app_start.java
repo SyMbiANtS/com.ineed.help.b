@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.ineed.help.b.R;
-
+import com.ineed.help.b.aLocationL;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -23,6 +23,7 @@ import android.provider.SyncStateContract.Constants;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -35,6 +36,8 @@ import android.telephony.*;
 import android.location.*;
 import android.location.GpsStatus.Listener;
 import android.telephony.*;
+import android.telephony.gsm.GsmCellLocation;
+import android.telephony.cdma.CdmaCellLocation;
 import android.text.Editable;
 import android.text.method.KeyListener;
 import android.hardware.*;
@@ -53,24 +56,7 @@ import java.util.Locale;
 public class app_start extends Activity implements OnCheckedChangeListener 
 {
 	  
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		
-		/*
-		Locale locale = new Locale("ru");
-		Locale.setDefault(locale);
-		Configuration config = new Configuration();
-		config.locale = locale;
-		getResources().updateConfiguration(config,null);
-		
-		*/
-		
-		
 
-		
-	}
 	
 	
 /*	@Override
@@ -160,7 +146,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		spec.setIndicator(getResources().getString (R.string.tab3_text));
 		tabs.addTab(spec);
 
-		tabs.setCurrentTab(1);
+		//tabs.setCurrentTab(1);
 		
 		String incomingNumber = new Intent().getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 		
@@ -170,12 +156,12 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		EditText et = (EditText) findViewById(R.id.editText1);
 		et.setText(incomingNumber);
 		}
-		ToggleButton toggleHelpButton;
 		
-		toggleHelpButton = (ToggleButton) findViewById(R.id.toggleButton1);
+		//closeBtnBehavior(0);
 		
-		toggleHelpButton.setOnCheckedChangeListener(this);
+
 		
+
 /*        Button btnContact = (Button) findViewById(R.id.btn_contact);
 		
 		btnContact.setOnClickListener(new OnClickListener() {
@@ -198,30 +184,324 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		});*/
 		
 		
-		Button btnClose = (Button) findViewById(R.id.button3);
+		
       //  btnClose.setText(le_locale.getDisplayName());
         
+      
+	//	Toast.makeText( getApplicationContext(), "this on create ends", Toast.LENGTH_SHORT ).show();
         
+        
+        
+    }
+    
+    @Override
+	protected void onResume() {
+    	super.onResume();
+    //	Toast.makeText( getApplicationContext(), "this on resume", Toast.LENGTH_SHORT ).show();
+    }
+    
+    @Override
+	protected void onPause() {
+    	super.onPause();
+   // 	Toast.makeText( getApplicationContext(), "this on pause", Toast.LENGTH_SHORT ).show();
+    }
+    
+    
+    @Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		//Toast.makeText( getApplicationContext(), "this on start start", Toast.LENGTH_SHORT ).show();
+		ToggleButton toggleHelpButton;
+		
+		toggleHelpButton = (ToggleButton) findViewById(R.id.toggleButton1);
+		TabHost tabs = (TabHost) findViewById(android.R.id.tabhost);
+		if (toggleHelpButton.isEnabled() == true)
+		{
+			
+			if (toggleHelpButton.isChecked()==false)
+			{
+				toggleHelpButton.setOnCheckedChangeListener(this);
+		//		Toast.makeText( getApplicationContext(), "this 22222", Toast.LENGTH_SHORT ).show();
+				closeBtnBehaviour(1);
+				tabs.setCurrentTab(1);
+				
+			}
+			else
+			{
+		//		Toast.makeText( getApplicationContext(), "this 33333", Toast.LENGTH_SHORT ).show();
+			toggleHelpButton.setOnCheckedChangeListener(null);
+				
+			closeBtnBehaviour(0);
+			tabs.setCurrentTab(1);
+			}
+			
+			
+			//toggleHelpButton.setChecked(true);
+		//toggleHelpButton.setEnabled(true);
+		
+		//closeBtnBehavior(1);
+		
+		//
+		//toggleHelpButton.setEnabled(false);
+		
+		//toggleHelpButton.setOnCheckedChangeListener(this);
+		}
+		else
+		{
+		//	Toast.makeText( getApplicationContext(), "this 11111", Toast.LENGTH_SHORT ).show();
+			
+			toggleHelpButton.setEnabled(true);
+			toggleHelpButton.setChecked(true);
+			closeBtnBehaviour(1);
+			toggleHelpButton.setOnCheckedChangeListener(this);
+			
+			//toggleHelpButton.setOnCheckedChangeListener(null);
+		}
+		
+		Button checkGps = (Button) findViewById(R.id.buttonCheckGps);
+		
+		checkGps.setOnClickListener(getGps);
+		
+		/*
+		Locale locale = new Locale("ru");
+		Locale.setDefault(locale);
+		Configuration config = new Configuration();
+		config.locale = locale;
+		getResources().updateConfiguration(config,null);
+		
+		*/
+		
+	
+       
+
+		
+	}
+    
+    private OnClickListener getGps = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			
+			getNewGps();
+			
+			
+		}
+	};
+    
+    private void getNewGps()
+    {
+    	aLocationL aloc = new aLocationL(); 
+    	LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	
+    	
+    	
+		 Criteria criteria = new Criteria();
+		 String gR = "gps";
+		 Location loc = lm.getLastKnownLocation(gR);
+	      //	loc.setLatitude(0.0);
+	      //	loc.setAltitude(0.0);
+	      	loc.setTime(System.currentTimeMillis());
+		 
+	     //	LocationProvider gps = lm.getProvider("gps");
+	     	
+	     	
+	     	
+	       	if (lm.isProviderEnabled(gR) != true)
+	       	{
+	       		Toast.makeText( getApplicationContext(), 
+	           			"no gps provider", 
+	           			Toast.LENGTH_SHORT ).show();
+	       		try
+	       		{
+	       		
+	       			
+	       			//    Intent myIntent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS );
+	       			//    startActivity(myIntent);
+	       			
+
+
+	       		 lm.removeUpdates(aloc);
+	    		 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+	    		 
+	    
+	  	      	aloc.onLocationChanged(loc);
+	       			
+	       		}
+	       		catch (Exception e) 
+	       		{
+	       			Toast.makeText( getApplicationContext(), 
+		           			"GOT ERROR iNiT GPS "+ e.toString(), 
+		           			Toast.LENGTH_SHORT ).show();
+	       		}
+	       	}	
+	       	       	else
+	       	{
+	     lm.removeUpdates(aloc);
+		// lm.setTestProviderEnabled(gpsProvider, true);
+		 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+
+	      	aloc.onLocationChanged(loc);
+	 //     	Location ewLoc = aloc.; 
+		// Location loc = new Location();
+		
+      	
+    //lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+     // 	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
+      	
+      	
+     // 	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+      	
+     // 	gpsLoc = loc.toString();
+     // lm. ;
+      	
+
+	    	
+  
+      	
+     // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
+       
+      	
+      	
+	       	}
+	      
+	       	String gotProviders = toString().valueOf(lm.getProviders(true));
+	       	
+	       	String gpsLoc = "GPS|: Latitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getLatitude()  ) 
+	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getLongitude()  ) 
+	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getAltitude()  ) ;
+	      	
+	      	
+	      	
+	      	
+	    	
+	      	
+	      	String gpsLoc2 = "Passive|: Latitude : " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  ) 
+	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation("passive").getLongitude()  ) 
+	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation("passive").getAltitude()  ) ;
+	      	
+	      	
+	        Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
+	      	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
+	      	
+	       	
+	       	String cellData = "CDMA :"+toString().valueOf(new CdmaCellLocation())
+	      			+" |GSM :" +toString().valueOf(new GsmCellLocation());
+	       	
+	      	Toast.makeText( getApplicationContext(), gpsLoc, Toast.LENGTH_LONG ).show();
+	      	
+	      	Toast.makeText( getApplicationContext(), cellData, Toast.LENGTH_LONG ).show();
+		       
+    	
+    	
+    }
+    
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		//Toast.makeText( getApplicationContext(), "this on stop start", Toast.LENGTH_SHORT ).show();
+
+		ToggleButton toggleHelpButton;
+		
+		toggleHelpButton = (ToggleButton) findViewById(R.id.toggleButton1);
+
+		closeBtnBehaviour(1);
+		toggleHelpButton.setOnCheckedChangeListener(null);
+		//toggleHelpButton.setEnabled(true);
+	
+		//toggleHelpButton.setChecked(true);
+		//toggleHelpButton.setEnabled(true);
+		//toggleHelpButton.setOnCheckedChangeListener(this);
+		
+		/*
+		Locale locale = new Locale("ru");
+		Locale.setDefault(locale);
+		Configuration config = new Configuration();
+		config.locale = locale;
+		getResources().updateConfiguration(config,null);
+		
+		*/
+		
+		
+
+		
+	}
+    
+    public void closeBtnBehaviour(int joke)
+    {
+    	
+    	final Button bb2 = (Button)findViewById(R.id.button1);
+    	Button btnClose = (Button) findViewById(R.id.button3);
+    	
+    	
+    	switch (joke) {
+    	
+    	case 1:
+    	
+
+    	bb2.setText(R.string.alrighty);
+    	
         btnClose.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 			       
-			        	finish();
-			           System.exit(0);
+				bb2.setText(R.string.some_joke);
+			        	return;
 			           
 				
 			}
-			
-			
-			
-			
 		});
- 
-       
+    	case 2:
+    	{
+    		bb2.setText(R.string.bye_word);
+	        
+	        btnClose.setOnClickListener(new OnClickListener() {
+				
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+				       
+				        	finish();
+				           System.exit(0);
+				           
+					
+				}
+			});
+			
+	        
+		//finishActivity(1); //no
+		
+		return;
+    		
+    	}
         
-        
-        
+    	default:
+    	{
+    		bb2.setText(R.string.btn_active);
+	        
+	        btnClose.setOnClickListener(new OnClickListener() {
+				
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+				       
+				        	finish();
+				           System.exit(0);
+				           
+					
+				}
+			});
+
+		
+		return;
+    		
+    		
+    		
+    		
+    	}
+    	
+    }
     }
 
     public boolean loadInitData()
@@ -243,45 +523,50 @@ public class app_start extends Activity implements OnCheckedChangeListener
 */
     
     
+    public void performAction()
+    {
+    	
+    	  String nuText;
+	    	EditText phoneNum = (EditText) findViewById(R.id.editText3);
+	    	nuText = phoneNum.getText().toString();
+	    	
+	    	  
+	    EditText smsTextEdit = (EditText) findViewById(R.id.editText2);
+	    String smsText = smsTextEdit.getText().toString();
+	    	
+	    	
+	    EditText phoneTextEdit = (EditText) findViewById(R.id.editText1);
+      String dialNum = phoneTextEdit.getText().toString();
+	    
+	   
+		
+		Intent listenButton = new Intent();
+	    listenButton.setClass(this, send_sms.class);
+	    
+	    listenButton.putExtra("smsTXT",smsText);
+	    listenButton.putExtra("smsPhone",nuText);
+	    listenButton.putExtra("callPhone",dialNum);
+	    
+	    
+	    startActivity(listenButton);
+    	
+    }
+    
     
     
 	@Override
 	public void onCheckedChanged(CompoundButton toggleHelpButton, boolean isChecked) 
 	{
+	
+		//Button btnClose = (Button) findViewById(R.id.button3);
 		final Button bb2 = (Button)findViewById(R.id.button1);
-		Button btnClose = (Button) findViewById(R.id.button3);
+		
 		// TODO Auto-generated method stub
-		bb2.setText(R.string.btn_active);
+		toggleHelpButton = (ToggleButton) findViewById(R.id.toggleButton1);
     
 		if (isChecked)
 		{
-			   String nuText;
-		    	EditText phoneNum = (EditText) findViewById(R.id.editText3);
-		    	nuText = phoneNum.getText().toString();
-		    	
-		    	  
-		    EditText smsTextEdit = (EditText) findViewById(R.id.editText2);
-		    String smsText = smsTextEdit.getText().toString();
-		    	
-		    	
-		    EditText phoneTextEdit = (EditText) findViewById(R.id.editText1);
-	        String dialNum = phoneTextEdit.getText().toString();
-		    
-		   
 			
-			Intent listenButton = new Intent();
-		    listenButton.setClass(this, send_sms.class);
-		    
-		    listenButton.putExtra("smsTXT",smsText);
-		    listenButton.putExtra("smsPhone",nuText);
-		    listenButton.putExtra("callPhone",dialNum);
-		    
-			startActivity(listenButton);
-			
-        	
-			bb2.setText(R.string.alrighty);
-        	
-        	
         	//send_sms ssms = new send_sms();
          //   send_sms ssms = new send_sms();
         //	ssms.dispatchKeyEvent(KeyEvent event);
@@ -293,44 +578,32 @@ public class app_start extends Activity implements OnCheckedChangeListener
         	
 	     //  com.ineed.help.send_sms ssms = new com.ineed.help.send_sms();
 	     //  Class sms_help = ssms.getClass();   
+	        toggleHelpButton.setEnabled(false);
+			toggleHelpButton.setOnCheckedChangeListener(null);
+			closeBtnBehaviour(1);
+			
+			toggleHelpButton.setChecked(false);
+	        performAction();
+
 		
-	        
-	        btnClose.setOnClickListener(new OnClickListener() {
-				
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-				       
-					bb2.setText(R.string.some_joke);
-				        	return;
-				           
-					
-				}
-			});
-			
-			
 		}
 		else
 		{
-			bb2.setText(R.string.bye_word);
-	        
-	        btnClose.setOnClickListener(new OnClickListener() {
-				
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-				       
-				        	finish();
-				           System.exit(0);
-				           
-					
-				}
-			});
+			if (toggleHelpButton.isEnabled()==false)
+			{
+			closeBtnBehaviour(2);
+			}
+			else
+			{
+				closeBtnBehaviour(1);
+			}
 			
-		finishActivity(1); //no
-		
-		return;
 		}
 		
 		
+			
+			
+	
 	//	Timer tick = new Timer()	;		
 	////		tick.scheduleAtFixedRate(new TimerTask()
 	//		{@Override public void run()

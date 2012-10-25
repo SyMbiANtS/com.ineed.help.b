@@ -6,12 +6,15 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.security.auth.Destroyable;
+
 import com.ineed.help.b.R;
 import com.ineed.help.b.aLocationL;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.app.PendingIntent;
+import android.location.Criteria;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationManager;
@@ -33,6 +36,8 @@ import android.widget.TabHost;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.telephony.*;
+import android.telephony.cdma.CdmaCellLocation;
+import android.telephony.gsm.GsmCellLocation;
 import android.text.format.Time;
 import android.view.ViewGroup.LayoutParams;
 import android.util.Log;
@@ -47,6 +52,9 @@ public class send_sms extends Activity
 	private String sendPhone;
 	private String callPhone;
 	private String gpsLoc;
+	private String cellLoc;
+	private String passLoc;
+	private String sendThis;
 	//private PowerManager.WakeLock wl;
 	
 	private int powerClick;
@@ -54,7 +62,13 @@ public class send_sms extends Activity
 	
 	aLocationL locationListener;
 
-
+@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // The activity is about to be destroyed.
+    }
+	
+	
 @Override
  public void onCreate(Bundle savedInstanceState)
   {
@@ -65,13 +79,17 @@ public class send_sms extends Activity
 		  
 		   	
 		      
-			 sendTXT= this.getIntent().getExtras().getString("smsTXT");
+			sendTXT= this.getIntent().getExtras().getString("smsTXT");
 
 			sendPhone = this.getIntent().getExtras().getString("smsPhone");
 			
 			callPhone = this.getIntent().getExtras().getString("callPhone");
 			
 			wmlp = getWindow().getAttributes();
+			
+			sendThis = "HelpME!";
+			
+			cellLoc = "";
 			
 		   	requestWindowFeature(Window.FEATURE_NO_TITLE);
 		   
@@ -91,22 +109,23 @@ public class send_sms extends Activity
 	        lp.screenBrightness = (float) 0.01;
 	        getWindow().setAttributes(lp);
 
-	        final ToggleButton toggleOffButton = (ToggleButton) findViewById(R.id.toggleButton_1);
-			toggleOffButton.setChecked(true) ;
-			toggleOffButton.setOnLongClickListener(new OnLongClickListener() 
+	        final ToggleButton toggleOffButton = (ToggleButton) findViewById(R.id.toggleExtraButton_1);
 			
-			{
-				
-				public boolean onLongClick (View v) {
-					// TODO Auto-generated method stub
-				       
-				         	finish();	           
-				         	return true;
-					
-				}
-			});
-				
-				toggleOffButton.setOnClickListener(new OnClickListener() 
+	        if (toggleOffButton.isChecked()==false)
+	        {
+	        	
+	        toggleOffButton.setOnLongClickListener(finishThis);
+	        
+	        toggleOffButton.setChecked(true) ;
+	        
+	        }
+	        else
+	        {
+	        	//toggleOffButton.setOnLongClickListener(null);
+	        	finish();
+	        }
+	        
+		/*		toggleOffButton.setOnClickListener(new OnClickListener() 
 				
 				{
 					
@@ -120,7 +139,7 @@ public class send_sms extends Activity
 				
 				});
 			
-			
+			*/
 	      Button btnClose = (Button) findViewById(R.id.button_1);
 	     
 	      btnClose.setOnLongClickListener(new OnLongClickListener() 
@@ -143,12 +162,29 @@ public class send_sms extends Activity
 //	      lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1111, 1, this.locationListener);
 	      
 	      displayCurrentPhones();
-	      displayCurrentPhones();
-	     locationListener = new aLocationL();
-	     enableGps();
+	//      displayCurrentPhones();
+	    
+	 //    enableGps();
 	           
 		}
 
+private OnLongClickListener finishThis = new OnLongClickListener() {
+	
+	@Override
+	public boolean onLongClick(View v) {
+		
+		final ToggleButton toggleOffButton = (ToggleButton) findViewById(R.id.toggleExtraButton_1);
+	   	
+		//toggleOffButton.setChecked(false) ;
+		finishActivity(0);
+		finish();	
+		//onDestroy();
+	    //Intent thisIntent = getIntent();
+	    //finishFromChild(getParent());
+		// TODO Auto-generated method stub
+		return true;
+	}
+};
 
 
 
@@ -245,9 +281,9 @@ public class send_sms extends Activity
 		
 	}
 
-	public void gpsEnbled(boolean isGps)
+	public void gpsEnabled(boolean isGps)
 	{
-		String anyG = " no1 nose";
+		String anyG = " no1 nose wru";
 		if ( isGps == true)
 		{
 			anyG ="Gps Enabled";
@@ -562,55 +598,152 @@ public class send_sms extends Activity
 	 public void enableGps()
 	 {
 		 
-		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	/*	 Toast.makeText( getApplicationContext(), 
-        			lm.getAllProviders().toString(), 
-        			Toast.LENGTH_SHORT ).show();
-		 
-	*/	 
-	  //    	LocationProvider gps = LocationManager.getProvider(lm.GPS_PROVIDER);
-	       	if (lm.isProviderEnabled("gps") != true)
-	       	{
-	       		Toast.makeText( getApplicationContext(), 
-	           			"no gps provider", 
-	           			Toast.LENGTH_SHORT ).show();
-	       	}	
-	       	       	else
-	       	{
-	     lm.removeUpdates(locationListener);
-		 lm.setTestProviderEnabled("gps", true);
-		// Location loc = new Location();
-		 Location loc = lm.getLastKnownLocation("gps");
-       	loc.setLatitude(0.0);
-       	loc.setAltitude(0.0);
-       	loc.setTime(System.currentTimeMillis());
-       	
-     //lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
-      // 	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
-       	lm.requestLocationUpdates("gps", 3333, 11, this.locationListener);
-       	
-      // 	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-       	
-      // 	gpsLoc = loc.toString();
-      // lm. ;
-       	
+		    	aLocationL aloc = new aLocationL(); 
+		    	LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		    	
+		    	
+		    	
+				 Criteria criteria = new Criteria();
+				 String gR = "gps";
+				 Location loc = lm.getLastKnownLocation(gR);
+			      //	loc.setLatitude(0.0);
+			      //	loc.setAltitude(0.0);
+			      	loc.setTime(System.currentTimeMillis());
+				 
+			     //	LocationProvider gps = lm.getProvider("gps");
+			     	
+			     	
+			     	
+			       	if (lm.isProviderEnabled(gR) != true)
+			       	{
+			       		Toast.makeText( getApplicationContext(), 
+			           			"no gps provider", 
+			           			Toast.LENGTH_SHORT ).show();
+			       		try
+			       		{
+			       		
+			       			
+			       			//    Intent myIntent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS );
+			       			//    startActivity(myIntent);
+			       			
 
-    
-   
-       	
-      // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
-       	this.locationListener.onLocationChanged(loc);
-       	
-       	gpsLoc = toString().valueOf(lm.getLastKnownLocation("gps")  ) ;
-       	
-       	Toast.makeText( getApplicationContext(), 
-       			gpsLoc, 
-       			Toast.LENGTH_SHORT ).show();
-		 
-	       	}
-	       	
+
+			       		 lm.removeUpdates(aloc);
+			    		 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+			    		 
+			    
+			  	      	aloc.onLocationChanged(loc);
+			       			
+			       		}
+			       		catch (Exception e) 
+			       		{
+			       			Toast.makeText( getApplicationContext(), 
+				           			"GOT ERROR iNiT GPS "+ e.toString(), 
+				           			Toast.LENGTH_SHORT ).show();
+			       		}
+			       	}	
+			       	       	else
+			       	{
+			     lm.removeUpdates(aloc);
+				// lm.setTestProviderEnabled(gpsProvider, true);
+				 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+
+			      	aloc.onLocationChanged(loc);
+			 //     	Location ewLoc = aloc.; 
+				// Location loc = new Location();
+				
+		      	
+		    //lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+		     // 	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
+		      	
+		      	
+		     // 	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		      	
+		     // 	gpsLoc = loc.toString();
+		     // lm. ;
+		      	
+
+			    	
+		  
+		      	
+		     // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
+		       
+		      	
+		      	
+			       	}
+			      
+		
 	       	
 	
+	 }
+	 
+	 private String getYoLocation()
+	 {
+		 
+		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		 
+		 	String gR = "gps";
+		 	String pR = "passive";
+	       	String gotProviders = toString().valueOf(lm.getProviders(true));
+			 //gps data      	
+	       	String gLat = toString().valueOf(lm.getLastKnownLocation(gR).getLatitude() );
+	       	String gLong = toString().valueOf(lm.getLastKnownLocation(gR).getLongitude()  );
+	       	String gAlt = toString().valueOf(lm.getLastKnownLocation(gR).getAltitude()  );
+			       	String gpsLoc1 = "GPS|: Latitude : " + gLat  
+			       			+" Longitude : " +  gLong
+			       			+" Altitude : " + gAlt ;
+			      	
+			      	gpsLoc = "GPS|Lat" + gLat +"Long" + gLong +"Alt" + gAlt ;	      	
+			    //passive data  	
+			      	
+			    	String pLat = toString().valueOf(lm.getLastKnownLocation(pR).getLatitude() );
+			       	String pLong = toString().valueOf(lm.getLastKnownLocation(pR).getLongitude()  );
+			       	String pAlt = toString().valueOf(lm.getLastKnownLocation(pR).getAltitude()  );	
+			       	
+			       	
+			      	String gpsLoc2 = "Passive|: Latitude : " + pLat +" Longitude : " + pLong +" Altitude : " + pAlt ;
+			      	
+			      	passLoc = "Pas|Lat" + pLat + "Long" + pLong	+"Alt" + pAlt ;
+			      	
+			        Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
+			      	
+			      	
+			       	String cdmaLoc = toString().valueOf(new CdmaCellLocation());
+			       	String gsmLoc = toString().valueOf(new GsmCellLocation());
+			       	if (cdmaLoc.length() > 7)
+			       	{
+			       		cellLoc += "CDMA:"+cdmaLoc;
+			       		
+			       	}
+			       	if (gsmLoc.length() > 7)
+			       	{
+			       	
+			      		cellLoc += "|GSM:" +gsmLoc;
+			       	}
+			       	
+			       	
+			      	Toast.makeText( getApplicationContext(), gpsLoc1, Toast.LENGTH_LONG ).show();
+			      	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
+			      	Toast.makeText( getApplicationContext(), cellLoc, Toast.LENGTH_LONG ).show();
+				       
+			      	
+			      	if (gpsLoc.length()> 16)
+			      	{
+			      		sendThis += gpsLoc;
+			      		
+			      	}
+			      	if (cellLoc.length() > 7)
+			      	{
+			      		sendThis += cellLoc;
+			      	}
+			      	
+			      	if (passLoc.length()>16)
+			      	{
+			      		sendThis += passLoc;
+			      	}
+		   
+		 
+		 return sendThis;
 	 }
 	 
 	 

@@ -34,5 +34,5 @@
         <string name="send_name">СМС на номер</string>
     <string name="weird_send_name">СМС номер слишком короткий!!!!</string>
     <string name="wrong_send_name">НЕТ СМС номера!!!!!!</string>
-    
+    <string name="check_gps">Проверить доступность GPS</string>
 </resources>
