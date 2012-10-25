@@ -286,6 +286,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 			
 			getNewGps();
 			
+
 			
 		}
 	};
@@ -312,7 +313,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 	       	{
 	       		Toast.makeText( getApplicationContext(), 
 	           			"no gps provider", 
-	           			Toast.LENGTH_SHORT ).show();
+	           			Toast.LENGTH_LONG ).show();
 	       		try
 	       		{
 	       		
@@ -323,7 +324,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 
 
 	       		 lm.removeUpdates(aloc);
-	    		 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+	    		 lm.requestLocationUpdates(gR, 7777, 11, aloc);
 	    		 
 	    
 	  	      	aloc.onLocationChanged(loc);
@@ -333,14 +334,14 @@ public class app_start extends Activity implements OnCheckedChangeListener
 	       		{
 	       			Toast.makeText( getApplicationContext(), 
 		           			"GOT ERROR iNiT GPS "+ e.toString(), 
-		           			Toast.LENGTH_SHORT ).show();
+		           			Toast.LENGTH_LONG ).show();
 	       		}
 	       	}	
 	       	       	else
 	       	{
 	     lm.removeUpdates(aloc);
 		// lm.setTestProviderEnabled(gpsProvider, true);
-		 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+		 lm.requestLocationUpdates(gR, 7777, 11, aloc);
 
 	      	aloc.onLocationChanged(loc);
 	 //     	Location ewLoc = aloc.; 
@@ -382,16 +383,16 @@ public class app_start extends Activity implements OnCheckedChangeListener
 	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation("passive").getAltitude()  ) ;
 	      	
 	      	
-	        Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
-	      	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
+	      //  Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
+	      //	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
 	      	
 	       	
 	       	String cellData = "CDMA :"+toString().valueOf(new CdmaCellLocation())
 	      			+" |GSM :" +toString().valueOf(new GsmCellLocation());
 	       	
-	      	Toast.makeText( getApplicationContext(), gpsLoc, Toast.LENGTH_LONG ).show();
+	      	Toast.makeText( getApplicationContext(), gotProviders +" | \n"+gpsLoc +" | \n"+gpsLoc2+" | \n"+cellData, Toast.LENGTH_LONG ).show();
 	      	
-	      	Toast.makeText( getApplicationContext(), cellData, Toast.LENGTH_LONG ).show();
+	    //  	Toast.makeText( getApplicationContext(), cellData, Toast.LENGTH_LONG ).show();
 		       
     	
     	

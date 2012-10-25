@@ -55,6 +55,7 @@ public class send_sms extends Activity
 	private String cellLoc;
 	private String passLoc;
 	private String sendThis;
+	private String sendNext;
 	//private PowerManager.WakeLock wl;
 	
 	private int powerClick;
@@ -88,6 +89,7 @@ public class send_sms extends Activity
 			wmlp = getWindow().getAttributes();
 			
 			sendThis = "HelpME!";
+			sendNext = "iNeedHelp!";
 			
 			cellLoc = "";
 			
@@ -164,7 +166,7 @@ public class send_sms extends Activity
 	      displayCurrentPhones();
 	//      displayCurrentPhones();
 	    
-	 //    enableGps();
+	     enableGps();
 	           
 		}
 
@@ -374,7 +376,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		    	*/
 		    	
 	        	
-	        	doThings();
+	        	doOtherThings();
 	        	//setOnbg();
 	        	
 	       	return true;
@@ -436,7 +438,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		
 	    	 if (sendPhone.length()>1)
 	    	 {
-	    		 sendSMS(sendPhone, sendTXT);
+	    		 sendGpsMessage(sendPhone);
 	    	 }
 	     }  
 	        
@@ -454,20 +456,23 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 					performDial();
 					
 						}
-					}, 777);
+					}, 999);
 	        	}
 	        }
 	 }
 	 
 	 private void doOtherThings()
 	 {
+		 getYoLocation();
 		 
 	     if (sendPhone != null)
 	     {
 		
 	    	 if (sendPhone.length()>1)
 	    	 {
-	    		 sendSMS(sendPhone, "Alf-A-All-A: "+sendTXT);
+	    		// sendSMS(sendPhone, "Alf-A-All-A: "+sendTXT);
+	    		 
+	    		sendGpsMessage(sendPhone);
 	    	 }
 	     }  
 	        
@@ -475,12 +480,92 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	        {
 	        	if (callPhone.length()>1)
 	        	{
-	        		sendSMS(callPhone, "Alf-A-All-A: "+sendTXT);
+	        		
+	        		sendGpsMessage(callPhone);
+	        	//	sendSMS(callPhone, "Alf-A-All-A: "+sendTXT);
 	        	}
 	        }
 	        
-	        Toast.makeText( getApplicationContext(), "iNeedHelp! HelpMe! Alf-A-All-A", Toast.LENGTH_SHORT ).show();
+	        Toast.makeText( getApplicationContext(), "iNeedHelp! HelpMe! Alf-A-All-A", Toast.LENGTH_LONG ).show();
 	 }
+	 
+	 
+	 public void sendGpsMessage(String phoneNumber)
+	 {
+
+		 String seT = sendThis;
+		 String seN = sendNext;
+		 
+		 if (160 - sendTXT.length() > sendThis.length())
+    		 
+		 {
+			 seT += sendTXT;
+		 
+			 sendSMS(phoneNumber, seT);
+			 Toast.makeText( getApplicationContext(), seT+" "+ toString().valueOf(sendThis.length()), Toast.LENGTH_SHORT ).show();
+			 if (sendNext.length() > 11)
+			 {
+				 sendSMS(phoneNumber, sendNext);
+				 Toast.makeText( getApplicationContext(), sendNext, Toast.LENGTH_SHORT ).show();
+			 }
+		 }
+		 else
+		 {
+			 if (160 - sendTXT.length() > sendNext.length())
+			 {
+				 seN += sendTXT;
+				 sendSMS(phoneNumber, sendThis);
+				 sendSMS(phoneNumber, seN);
+				 Toast.makeText( getApplicationContext(), sendThis, Toast.LENGTH_SHORT ).show();
+				 Toast.makeText( getApplicationContext(), seN, Toast.LENGTH_SHORT ).show();
+			 }
+			 else
+			 {
+				 sendSMS(phoneNumber, sendThis);
+				 sendSMS(phoneNumber, sendNext);
+				 sendSMS(phoneNumber, sendTXT);
+				 Toast.makeText( getApplicationContext(), sendThis, Toast.LENGTH_SHORT ).show();
+				 Toast.makeText( getApplicationContext(), sendNext, Toast.LENGTH_SHORT ).show();
+				 Toast.makeText( getApplicationContext(), sendTXT, Toast.LENGTH_SHORT ).show();
+			 }
+			 
+		 }
+	 }
+	 
+	 
+	 
+	 public void toastGpsMessage()
+	 {
+
+		 
+		 if (160 - sendTXT.length() > sendThis.length())
+    		 
+		 {
+			 sendThis += sendTXT;
+		 
+			 
+			 Toast.makeText( getApplicationContext(), sendThis+" "+ toString().valueOf(sendThis.length()), Toast.LENGTH_LONG ).show();
+			 if (sendNext.length() > 11)
+			 {
+				 Toast.makeText( getApplicationContext(), sendNext, Toast.LENGTH_LONG ).show();
+			 }
+		 }
+		 else
+		 {
+			 if (160 - sendTXT.length() > sendNext.length())
+			 {
+				 sendNext += sendTXT;
+				 Toast.makeText( getApplicationContext(), sendThis, Toast.LENGTH_LONG ).show();
+			 }
+			 else
+			 {
+				 Toast.makeText( getApplicationContext(), sendThis, Toast.LENGTH_LONG ).show();
+				 Toast.makeText( getApplicationContext(), sendTXT, Toast.LENGTH_LONG ).show();
+			 }
+			 
+		 }
+	 }
+	 
 	 
 	 
 
@@ -677,10 +762,13 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	
 	 }
 	 
-	 private String getYoLocation()
+	 public String getYoLocation()
 	 {
 		 
 		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		 
+			sendThis = "HelpME!";
+			sendNext = "iNeedHelp!";
 		 
 		 	String gR = "gps";
 		 	String pR = "passive";
@@ -689,11 +777,9 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	       	String gLat = toString().valueOf(lm.getLastKnownLocation(gR).getLatitude() );
 	       	String gLong = toString().valueOf(lm.getLastKnownLocation(gR).getLongitude()  );
 	       	String gAlt = toString().valueOf(lm.getLastKnownLocation(gR).getAltitude()  );
-			       	String gpsLoc1 = "GPS|: Latitude : " + gLat  
-			       			+" Longitude : " +  gLong
-			       			+" Altitude : " + gAlt ;
+			   String gpsLoc1 = "GPS|: Latitude : " + gLat +" Longitude : " +  gLong	+" Altitude : " + gAlt ;
 			      	
-			      	gpsLoc = "GPS|Lat" + gLat +"Long" + gLong +"Alt" + gAlt ;	      	
+			   gpsLoc = "GPS|Lat" + gLat +"Long" + gLong +"Alt" + gAlt ;	      	
 			    //passive data  	
 			      	
 			    	String pLat = toString().valueOf(lm.getLastKnownLocation(pR).getLatitude() );
@@ -701,46 +787,55 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 			       	String pAlt = toString().valueOf(lm.getLastKnownLocation(pR).getAltitude()  );	
 			       	
 			       	
-			      	String gpsLoc2 = "Passive|: Latitude : " + pLat +" Longitude : " + pLong +" Altitude : " + pAlt ;
+			   String gpsLoc2 = "Passive|: Latitude : " + pLat +" Longitude : " + pLong +" Altitude : " + pAlt ;
 			      	
-			      	passLoc = "Pas|Lat" + pLat + "Long" + pLong	+"Alt" + pAlt ;
+			   passLoc = "Pas|Lat" + pLat + "Long" + pLong	+"Alt" + pAlt ;
 			      	
-			        Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
+			    //    Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
 			      	
-			      	
+			   //cell data   	
 			       	String cdmaLoc = toString().valueOf(new CdmaCellLocation());
 			       	String gsmLoc = toString().valueOf(new GsmCellLocation());
-			       	if (cdmaLoc.length() > 7)
-			       	{
-			       		cellLoc += "CDMA:"+cdmaLoc;
-			       		
-			       	}
-			       	if (gsmLoc.length() > 7)
-			       	{
-			       	
-			      		cellLoc += "|GSM:" +gsmLoc;
-			       	}
+			       
+			       	if (cdmaLoc.length() > 11)	{	cellLoc = "CDMA:"+cdmaLoc; 	}
+			       	if (gsmLoc.length() > 11)	{	cellLoc = "|GSM:" +gsmLoc;   	}
 			       	
 			       	
-			      	Toast.makeText( getApplicationContext(), gpsLoc1, Toast.LENGTH_LONG ).show();
-			      	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
-			      	Toast.makeText( getApplicationContext(), cellLoc, Toast.LENGTH_LONG ).show();
-				       
+			      //	Toast.makeText( getApplicationContext(), gpsLoc1, Toast.LENGTH_SHORT ).show();
+			      //	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_SHORT ).show();
+			      //	Toast.makeText( getApplicationContext(), cellLoc, Toast.LENGTH_SHORT ).show();
+				    
+			      	Toast.makeText( getApplicationContext(), gotProviders +" | \n"+gpsLoc +" | \n"
+			      	+gpsLoc2+" | \n"+cellLoc, Toast.LENGTH_SHORT ).show();
 			      	
-			      	if (gpsLoc.length()> 16)
+			      	
+			      	
+			      String zeroStr = "helpme!";
+			      
+			      
+			      if (!pLat.matches(gLat) && !pLong.matches(gLong) && !pAlt.matches(gAlt))
+			      {
+			      	if ((zeroStr+= gpsLoc + cellLoc + passLoc).length() < 161)
 			      	{
-			      		sendThis += gpsLoc;
+			      		if (gpsLoc.length()> 16)    {	sendThis += gpsLoc;		}
+			      		if (cellLoc.length() > 7)	{	sendThis += cellLoc;	}				      	
+			      		if (passLoc.length()>16)	{  	sendThis += passLoc;	}
+			      	}
+			      	else
+			      	{
+			      		if (gpsLoc.length()> 16)    {	sendThis += gpsLoc;		}
+				      	if (cellLoc.length() > 7)	{	sendThis += cellLoc;	}	
+				      	
+				      	if (passLoc.length()>16)	{	sendNext += passLoc;	}
 			      		
 			      	}
-			      	if (cellLoc.length() > 7)
-			      	{
-			      		sendThis += cellLoc;
-			      	}
-			      	
-			      	if (passLoc.length()>16)
-			      	{
-			      		sendThis += passLoc;
-			      	}
+			      		
+			      }
+			      else
+			      {
+			    		if (gpsLoc.length()> 16)    {	sendThis += gpsLoc;		}
+				      	if (cellLoc.length() > 7)	{	sendThis += cellLoc;	}	
+			      }
 		   
 		 
 		 return sendThis;

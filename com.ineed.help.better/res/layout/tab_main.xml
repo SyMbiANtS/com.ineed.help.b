@@ -186,22 +186,17 @@
                         android:id="@+id/tableRow9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
-                    </TableRow>
+                    <Button android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/save_changes_text" android:gravity="center" /></TableRow>
 
                     <TableRow
                         android:id="@+id/tableRow10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
-                        <Button
-                            android:id="@+id/button2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@+string/save_changes_text" 
-                            android:gravity="center" />
+                        
              
 
-                    </TableRow>
+                    <Button android:id="@+id/buttonCheckGps" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/check_gps" android:gravity="center" /></TableRow>
                 </TableLayout>
 
             </LinearLayout>
@@ -220,12 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
-                        <Button
-                            android:id="@+id/buttonCheckGps"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@+string/check_gps" 
-                             android:gravity="center"/>
+                        
 
                     </TableRow>
 
