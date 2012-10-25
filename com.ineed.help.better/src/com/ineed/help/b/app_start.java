@@ -298,13 +298,15 @@ public class app_start extends Activity implements OnCheckedChangeListener
     	
     	
     	
-		 Criteria criteria = new Criteria();
+		// Criteria criteria = new Criteria();
 		 String gR = "gps";
+try
+{
+		 
 		 Location loc = lm.getLastKnownLocation(gR);
 	      //	loc.setLatitude(0.0);
 	      //	loc.setAltitude(0.0);
 	      	loc.setTime(System.currentTimeMillis());
-		 
 	     //	LocationProvider gps = lm.getProvider("gps");
 	     	
 	     	
@@ -394,7 +396,13 @@ public class app_start extends Activity implements OnCheckedChangeListener
 	      	
 	    //  	Toast.makeText( getApplicationContext(), cellData, Toast.LENGTH_LONG ).show();
 		       
-    	
+}
+catch (Exception e) 
+	{
+		Toast.makeText( getApplicationContext(), 
+   			"GOT ERROR iNiT GPS "+ e.toString(), 
+   			Toast.LENGTH_LONG ).show();
+	}
     	
     }
     

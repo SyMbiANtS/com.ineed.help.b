@@ -690,6 +690,9 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		    	
 				 Criteria criteria = new Criteria();
 				 String gR = "gps";
+				 try
+				 {
+				 
 				 Location loc = lm.getLastKnownLocation(gR);
 			      //	loc.setLatitude(0.0);
 			      //	loc.setAltitude(0.0);
@@ -757,13 +760,21 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		      	
 			       	}
 			      
-		
+				 }
+				 catch (Exception e) 
+		       		{
+		       			Toast.makeText( getApplicationContext(), 
+			           			"GOT ERROR iNiT GPS "+ e.toString(), 
+			           			Toast.LENGTH_LONG ).show();
+		       		}
 	       	
 	
 	 }
 	 
 	 public String getYoLocation()
 	 {
+		 try
+		 {
 		 
 		 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		 
@@ -837,7 +848,15 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 				      	if (cellLoc.length() > 7)	{	sendThis += cellLoc;	}	
 			      }
 		   
-		 
+		 }
+		 catch
+		 (Exception e) 
+    		{
+    			Toast.makeText( getApplicationContext(), 
+	           			"GOT ERROR iNiT GPS "+ e.toString(), 
+	           			Toast.LENGTH_LONG ).show();
+    		}
+			      
 		 return sendThis;
 	 }
 	 
