@@ -300,18 +300,19 @@ public class app_start extends Activity implements OnCheckedChangeListener
     	
 		// Criteria criteria = new Criteria();
 		 String gR = "gps";
-try
-{
+         Location loc;
+    try
+        {
 		 
-		 Location loc = lm.getLastKnownLocation(gR);
+		 loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	      //	loc.setLatitude(0.0);
 	      //	loc.setAltitude(0.0);
-	      	loc.setTime(System.currentTimeMillis());
+	      //	loc.setTime(System.currentTimeMillis());
 	     //	LocationProvider gps = lm.getProvider("gps");
 	     	
 	     	
 	     	
-	       	if (lm.isProviderEnabled(gR) != true)
+	       	if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) != true)
 	       	{
 	       		Toast.makeText( getApplicationContext(), 
 	           			"no gps provider", 
@@ -326,7 +327,7 @@ try
 
 
 	       		 lm.removeUpdates(aloc);
-	    		 lm.requestLocationUpdates(gR, 7777, 11, aloc);
+	    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 77, 11, aloc);
 	    		 
 	    
 	  	      	aloc.onLocationChanged(loc);
@@ -335,27 +336,32 @@ try
 	       		catch (Exception e) 
 	       		{
 	       			Toast.makeText( getApplicationContext(), 
-		           			"GOT ERROR iNiT GPS "+ e.toString(), 
+		           			"GOT ERROR iNiT GPS 3 "+ e.toString(),
 		           			Toast.LENGTH_LONG ).show();
 	       		}
 	       	}	
 	       	       	else
 	       	{
-	     lm.removeUpdates(aloc);
-		// lm.setTestProviderEnabled(gpsProvider, true);
-		 lm.requestLocationUpdates(gR, 7777, 11, aloc);
+	            lm.removeUpdates(aloc);
+		        // lm.setTestProviderEnabled(gpsProvider, true);
+		         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 777, 11, aloc);
 
-	      	aloc.onLocationChanged(loc);
-	 //     	Location ewLoc = aloc.; 
-		// Location loc = new Location();
-		
+                if (loc != null)
+                 {
+	      	        aloc.onLocationChanged(loc);
+	              //     	Location ewLoc = aloc.;
+	                    //loc = new Location(0,0);
+                 }
+                    else
+                        {
+
       	
-    //lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
-     // 	lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
+                              lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+         	                  lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
       	
       	
-     // 	loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-      	
+         	                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        }
      // 	gpsLoc = loc.toString();
      // lm. ;
       	
@@ -371,9 +377,9 @@ try
 	      
 	       	String gotProviders = toString().valueOf(lm.getProviders(true));
 	       	
-	       	String gpsLoc = "GPS|: Latitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getLatitude()  ) 
-	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getLongitude()  ) 
-	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation(gR).getAltitude()  ) ;
+	       	String gpsLoc = "GPS|: Latitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
+	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
+	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
 	      	
 	      	
 	      	
@@ -396,13 +402,13 @@ try
 	      	
 	    //  	Toast.makeText( getApplicationContext(), cellData, Toast.LENGTH_LONG ).show();
 		       
-}
-catch (Exception e) 
-	{
-		Toast.makeText( getApplicationContext(), 
-   			"GOT ERROR iNiT GPS "+ e.toString(), 
-   			Toast.LENGTH_LONG ).show();
-	}
+        }
+            catch (Exception e)
+	        {
+	            	Toast.makeText( getApplicationContext(),
+   	            		"GOT ERROR iNiT GPS 4 "+ e.toString(),
+             			Toast.LENGTH_LONG ).show();
+	        }
     	
     }
     
@@ -633,7 +639,7 @@ catch (Exception e)
            // this.startActivity(new Intent(YourActivity.this,NewActivity.class));  
         	// String smsText = getSmsText();
         	Button bb1 = (Button)findViewById(R.id.button1);
-        	bb1.setText("ЭКСТРА");
+        	bb1.setText("EXT.RA");
         	
         		
         		//sendBroadcast(execSMS);
