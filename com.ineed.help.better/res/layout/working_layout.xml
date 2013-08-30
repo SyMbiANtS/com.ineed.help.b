@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center|top"
@@ -18,15 +18,64 @@
         <Button
             android:id="@+id/button_1"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="111dp"
+            android:layout_height="111dp"
             android:layout_gravity="center"
-            android:text="@+string/extra_call" 
+            android:text=""
+            android:minHeight="120dp"
+            android:minWidth="120dp"
+            android:background="@drawable/r4"
+            android:layout_margin="11dp"
+            android:textColor="#1deded"
+            android:textAlignment="gravity"
+
             />
 
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+
+            <TableRow
+                android:id="@+id/tableRow011"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/symbiants"
+                android:gravity="left"
+                >
+
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="symbiants.com"
+            android:id="@+id/textView"
+            android:layout_gravity="right|bottom"
+            android:textColor="#009900"
+            android:textAlignment="textEnd"
+            android:singleLine="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@+string/extra_call"
+            android:layout_marginTop="60dp"
+            android:textAlignment="gravity"
+            android:id="@+id/textView2"
+            android:textColor="#1deded"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+
     </FrameLayout>
-    
-    
+
+
         <ToggleButton
         android:id="@+id/toggleExtraButton_1"
         android:layout_width="match_parent"
@@ -34,9 +83,9 @@
         android:hint="Режим отжима"
         android:text="ToggleOffExtraButton"
         android:textOff="iNeedHelp OFF"
-        android:textOn="iNeedHelp ON" 
+        android:textOn="iNeedHelp ON"
         />
-    
-    
+
+
 
 </LinearLayout>
