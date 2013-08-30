@@ -56,6 +56,7 @@ public class send_sms extends Activity
 	private String passLoc;
 	private String sendThis;
 	private String sendNext;
+    private boolean gpsReady;
 	//private PowerManager.WakeLock wl;
 	
 	private int powerClick;
@@ -73,9 +74,7 @@ public class send_sms extends Activity
 @Override
  public void onCreate(Bundle savedInstanceState)
   {
-	
-	
-	
+
 		   super.onCreate(savedInstanceState);
 		  
 		   	
@@ -113,7 +112,7 @@ public class send_sms extends Activity
 
 	        final ToggleButton toggleOffButton = (ToggleButton) findViewById(R.id.toggleExtraButton_1);
 			
-	        if (toggleOffButton.isChecked()==false)
+	        if (!toggleOffButton.isChecked())
 	        {
 	        	
 	        toggleOffButton.setOnLongClickListener(finishThis);
@@ -158,7 +157,7 @@ public class send_sms extends Activity
 				//	moveTaskToBack(true);
 				
 					return true;
-				};
+				}
 			});
 //	 	 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //	      lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1111, 1, this.locationListener);
@@ -286,7 +285,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	public void gpsEnabled(boolean isGps)
 	{
 		String anyG = " no1 nose wru";
-		if ( isGps == true)
+		if ( isGps)
 		{
 			anyG ="Gps Enabled";
 		 
@@ -297,6 +296,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		}
 		
 		Toast.makeText( getApplicationContext(), anyG, Toast.LENGTH_SHORT ).show();
+
 	}
 	
 	
@@ -465,23 +465,37 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	 {
 		 getYoLocation();
 		 
-	     if (sendPhone != null)
-	     {
-		
-	    	 if (sendPhone.length()>1)
-	    	 {
-	    		// sendSMS(sendPhone, "Alf-A-All-A: "+sendTXT);
-	    		 
-	    		sendGpsMessage(sendPhone);
+             if (sendPhone != null)
+             {
+
+                 if (sendPhone.length()>1)
+                 {
+                    // sendSMS(sendPhone, "Alf-A-All-A: "+sendTXT);
+                     if (gpsReady == true)
+                         {
+                             sendGpsMessage(sendPhone);
+                             toastGpsMessage();
+                         }
+                         else
+                         {
+                             if (sendTXT.length()<1)
+                             {
+                                    sendTXT="Call me, i need help!";
+                             }
+
+                             sendSMS(sendPhone, sendTXT);
+                         }
+                 }
 	    	 }
-	     }  
+
 	        
-	        if (callPhone!=null)
+	        if (callPhone != null)
 	        {
 	        	if (callPhone.length()>1)
 	        	{
-	        		
-	        		sendGpsMessage(callPhone);
+	        		performDial();
+                    setOnbg();
+	        	//  sendGpsMessage(callPhone);
 	        	//	sendSMS(callPhone, "Alf-A-All-A: "+sendTXT);
 	        	}
 	        }
@@ -537,7 +551,6 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	 public void toastGpsMessage()
 	 {
 
-		 
 		 if (160 - sendTXT.length() > sendThis.length())
     		 
 		 {
@@ -576,8 +589,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	    
 	     //	Uri uri = Uri.parse("smsto:"+message);
 	    	
-	    	
-	       
+
 	      PendingIntent pi = PendingIntent.getActivity(this, 0,   new Intent(this, me.class), 0);         
 	            
 	        SmsManager sms = SmsManager.getDefault();
@@ -618,20 +630,14 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 					 Toast.LENGTH_SHORT ).show();
 			
 	            }  
-	        	
-	        	
-	        	
-	        	
+
 	        }*/
 
 	        
 	      ////   sms.sendTextMessage(phoneNumber, null, gpsLoc +" "+strTime, pi, null);
-	        
-	       
-		    	
+
 		  //  	SmsManager smMan = SmsManager.getDefault() ;
-		    	
-		    	 
+
 		  //  	  smMan.sendTextMessage(nuText, null, smsText, null, null);
 		    	
 		  //  	 Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
@@ -641,8 +647,6 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		        
 		       // execSMS.setAction("android.intent.action.VOICE_COMMAND");
 
-		      
-		    		
 		  //  	startActivity(sendIntent);
 	        
 	        
@@ -682,8 +686,9 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 
 	 public void enableGps()
 	 {
-		 
-		    	aLocationL aloc = new aLocationL(); 
+		        gpsReady = false;
+
+		    	aLocationL aloc = new aLocationL();
 		    	LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		    	
 		    	
@@ -692,17 +697,23 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 				 String gR = "gps";
 				 try
 				 {
-				 
-				 Location loc = lm.getLastKnownLocation(gR);
-			      //	loc.setLatitude(0.0);
-			      //	loc.setAltitude(0.0);
-			      	loc.setTime(System.currentTimeMillis());
-				 
-			     //	LocationProvider gps = lm.getProvider("gps");
-			     	
-			     	
-			     	
-			       	if (lm.isProviderEnabled(gR) != true)
+
+                     Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                     if (loc != null)
+                     {
+                         loc.setTime(System.currentTimeMillis());
+                   //      loc.getLatitude();
+                  //       loc.getLongitude();
+                     }
+                     else
+                     {
+                      //   loc.setLatitude(0.0);
+                      //   loc.setAltitude(0.0);
+                     }
+                     //	LocationProvider gps = lm.getProvider("gps");
+
+
+                     if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) != true)
 			       	{
 			       		Toast.makeText( getApplicationContext(), 
 			           			"no gps provider", 
@@ -717,16 +728,16 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 
 
 			       		 lm.removeUpdates(aloc);
-			    		 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+			    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 44444, 3, aloc);
 			    		 
 			    
 			  	      	aloc.onLocationChanged(loc);
-			       			
+			       			gpsReady=true;
 			       		}
 			       		catch (Exception e) 
 			       		{
 			       			Toast.makeText( getApplicationContext(), 
-				           			"GOT ERROR iNiT GPS "+ e.toString(), 
+				           			"GOT ERROR iNiT GPS g "+ e.toString(),
 				           			Toast.LENGTH_SHORT ).show();
 			       		}
 			       	}	
@@ -734,9 +745,10 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 			       	{
 			     lm.removeUpdates(aloc);
 				// lm.setTestProviderEnabled(gpsProvider, true);
-				 lm.requestLocationUpdates(gR, 44444, 3, aloc);
+				 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 44444, 3, aloc);
 
 			      	aloc.onLocationChanged(loc);
+                        gpsReady=true;
 			 //     	Location ewLoc = aloc.; 
 				// Location loc = new Location();
 				
@@ -749,11 +761,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		      	
 		     // 	gpsLoc = loc.toString();
 		     // lm. ;
-		      	
 
-			    	
-		  
-		      	
 		     // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
 		       
 		      	
@@ -764,11 +772,11 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 				 catch (Exception e) 
 		       		{
 		       			Toast.makeText( getApplicationContext(), 
-			           			"GOT ERROR iNiT GPS "+ e.toString(), 
+			           			"GOT ERROR iNiT GPS 1"+ e.toString(),
 			           			Toast.LENGTH_LONG ).show();
 		       		}
 	       	
-	
+	        gpsEnabled(gpsReady);
 	 }
 	 
 	 public String getYoLocation()
@@ -785,9 +793,9 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		 	String pR = "passive";
 	       	String gotProviders = toString().valueOf(lm.getProviders(true));
 			 //gps data      	
-	       	String gLat = toString().valueOf(lm.getLastKnownLocation(gR).getLatitude() );
-	       	String gLong = toString().valueOf(lm.getLastKnownLocation(gR).getLongitude()  );
-	       	String gAlt = toString().valueOf(lm.getLastKnownLocation(gR).getAltitude()  );
+	       	String gLat = toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude() );
+	       	String gLong = toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  );
+	       	String gAlt = toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  );
 			   String gpsLoc1 = "GPS|: Latitude : " + gLat +" Longitude : " +  gLong	+" Altitude : " + gAlt ;
 			      	
 			   gpsLoc = "GPS|Lat" + gLat +"Long" + gLong +"Alt" + gAlt ;	      	
@@ -853,7 +861,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		 (Exception e) 
     		{
     			Toast.makeText( getApplicationContext(), 
-	           			"GOT ERROR iNiT GPS "+ e.toString(), 
+	           			"GOT ERROR iNiT GPS 2"+ e.toString(),
 	           			Toast.LENGTH_LONG ).show();
     		}
 			      
