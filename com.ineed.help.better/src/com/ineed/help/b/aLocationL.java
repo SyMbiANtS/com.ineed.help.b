@@ -144,9 +144,9 @@ public class aLocationL extends Application implements LocationListener
 
 	       	}
 	      
-	       	thisData = "GPS|: Latitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
-	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
-	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
+	       	thisData = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
+	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
+	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
 	      	
 	      	
 		 

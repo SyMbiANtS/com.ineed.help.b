@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HelpMe! Bet-A</string>
-    <string name="app_button1">HelpMe! extra button</string>
-    <string name="app_toggleButton1">Экстра кнопка</string>
+    <string name="app_name">EXTRA Button</string>
+    <string name="app_button1">HelpMe! Beta extra button</string>
+    <string name="app_toggleButton1">EXTRA кнопка</string>
     <string name="app_toggleButton1Off">Включить (ON)</string>
     <string name="app_toggleButton1On">Выключить (off)</string>
     <string name="app_button_1">HelpMe! extra button</string>
@@ -11,14 +11,14 @@
     <string name="enter_sms_number">Введите СМС номер</string>
     <string name="app_button2">HelpMe! extra button</string>
     <string name="app_button3">HelpMe! extra button</string>
-    <string name="default_sms_text">iNeedHelp!:Тут какая-то фигня, заберите меня отсюда скорее</string>
+    <string name="default_sms_text">НужнаПомощь!: ситуация сложная</string>
     <string name="default_phone_number">112</string>
-    <string name="bye_word">Давай, не болей! Карочи =)</string>
+    <string name="bye_word">Будьте добры и здоровы =)</string>
     <string name="hello_word">HelpMe! extra button</string>
     <string name="work_in_progress_word">HelpMe! extra button</string>
     <string name="open_contact">Введите номер телефона для вызова</string>
     <string name="close_app_button">Закрыть приложение</string>
-    <string name="check_button">HelpMe! extra button</string>
+    <string name="check_button">HelpMe! EXTRA Кнопка</string>
     <string name="tab1_text">Телефон</string>
     <string name="tab2_text">СМС</string>
     <string name="tab3_text">Интернет</string>

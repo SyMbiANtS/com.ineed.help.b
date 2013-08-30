@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HelpMe! Bet-A</string>
-    <string name="app_button1">HelpMe! extra button</string>
+    <string name="app_name">EXTRA Button</string>
+    <string name="app_button1">HelpMe! Beta extra button</string>
     <string name="app_toggleButton1">iNeedHelp</string>
     <string name="app_toggleButton1Off">Turn button (ON)</string>
     <string name="app_toggleButton1On">Turn button (off)</string>
@@ -11,9 +11,9 @@
     <string name="enter_sms_number">Enter SMS number</string>
     <string name="app_button2">HelpMe! extra button</string>
     <string name="app_button3">HelpMe! extra button</string>
-    <string name="default_sms_text">iNeedHelp!:Something weird is happenning, i need help!</string>
+    <string name="default_sms_text">HelpMe! i am in danger!</string>
     <string name="default_phone_number">911</string>
-    <string name="bye_word">Be good!! cyaround! =)</string>
+    <string name="bye_word">Be good and sunny =)</string>
     <string name="hello_word">HelpMe! extra button</string>
     <string name="work_in_progress_word">HelpMe! extra button</string>
     <string name="close_app_button">Close application</string>
@@ -22,7 +22,7 @@
     <string name="tab1_text">Phone</string>
     <string name="tab2_text">SMS</string>
     <string name="tab3_text">Internet</string>
-    <string name="save_changes_text">Enter SMS number and text \n in fields</string>
+    <string name="save_changes_text">Enter SMS number and text in fields</string>
     <string name="alrighty">Alrighty now?</string>
     <string name="some_joke">Sup dude? got some metall?</string>
     <string name="btn_active">Button activated!</string>

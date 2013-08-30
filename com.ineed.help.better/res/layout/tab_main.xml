@@ -23,11 +23,13 @@
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
+            android:gravity="center" >
 
             <LinearLayout
                 android:id="@+id/tab1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" 
+                android:layout_height="match_parent"
+                android:gravity="center" >
                 >
 
                 <TableLayout
@@ -36,15 +38,38 @@
                     android:layout_height="match_parent" >
 
                     <TableRow
+                        android:id="@+id/tableRow01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:minHeight="20dp">
+
+                    </TableRow>
+
+                    <TableRow
                         android:id="@+id/tableRow1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center" >
+                        android:gravity="center">
 
-                        <Spinner
-                            android:id="@+id/spinner1"
+                        <ToggleButton
+
+                            android:id="@+id/toggleButton1"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:layout_height="wrap_content"
+                            android:text="@+string/app_toggleButton1"
+                            android:textOff="@+string/app_toggleButton1Off"
+                            android:textOn="@+string/app_toggleButton1On"
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:minHeight="20dp">
 
                     </TableRow>
 
@@ -52,19 +77,18 @@
                         android:id="@+id/tableRow2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center" >
+                        android:gravity="center"
+                        >
+                        <Spinner
+                            android:id="@+id/spinner1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:focusable="false"
+                            android:gravity="center" />
 
                         
-                        <ToggleButton
-                            
-                            android:id="@+id/toggleButton1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@+string/app_toggleButton1"
-                            android:textOff="@+string/app_toggleButton1Off"
-                            android:textOn="@+string/app_toggleButton1On" 
-                            
-                            />
+
+
 
                     </TableRow>
 
@@ -83,7 +107,7 @@
                             android:inputType="phone"
                             
                             android:singleLine="true"
-                            android:text="@+string/default_phone_number" >
+                            android:text="@+string/default_phone_number">
 
                             <requestFocus />
                         </EditText>
@@ -122,7 +146,8 @@
                         android:id="@+id/tableRow6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center" >
+                        android:gravity="center"
+                        android:minHeight="20dp">
 
                     </TableRow>
 
@@ -130,73 +155,101 @@
                         android:id="@+id/button1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@+string/app_button1" />
+                        android:text="@+string/app_button1"
+                        android:background="#000000"
+                        android:textColor="#009900"
+                        android:gravity="center"
+                        android:minHeight="30dp"
+                        />
 
                     <Button
                         android:id="@+id/button3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@+string/close_app_button" />
+                        android:text="@+string/close_app_button"
+                        android:layout_gravity="bottom"
+
+                        />
 
                 </TableLayout>
+
+
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/tab2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:gravity="center">
 
                 <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:gravity="center">
 
                     <TableRow
                         android:id="@+id/tableRow7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
 
                         <EditText
                             android:id="@+id/editText3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:hint="@+string/enter_sms_number"
                             android:inputType="phone" 
-                            android:gravity="center" />
+                            android:gravity="center_horizontal" />
 
                     </TableRow>
 
                     <TableRow
                         android:id="@+id/tableRow8"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
 
                         <EditText
                             android:id="@+id/editText2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine" 
                             android:text="@+string/default_sms_text"
                             android:maxLength="160"
-                            android:gravity="center" />
+                            android:height="100dp"
+                            android:gravity="center_horizontal" />
 
                     </TableRow>
 
                     <TableRow
                         android:id="@+id/tableRow9"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
-                    <Button android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/save_changes_text" android:gravity="center" /></TableRow>
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+                    <Button android:id="@+id/button2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@+string/save_changes_text"
+                        android:gravity="center"
+                        android:background="#000000"
+                        android:textColor="#009900"
+                        android:minHeight="40dp"/>
+
+
+                    </TableRow>
 
                     <TableRow
                         android:id="@+id/tableRow10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
 
                         
              
 
-                    <Button android:id="@+id/buttonCheckGps" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@+string/check_gps" android:gravity="center" /></TableRow>
+                    <Button android:id="@+id/buttonCheckGps" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@+string/check_gps" android:gravity="center" /></TableRow>
                 </TableLayout>
 
             </LinearLayout>

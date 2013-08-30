@@ -377,26 +377,26 @@ public class app_start extends Activity implements OnCheckedChangeListener
 	      
 	       	String gotProviders = toString().valueOf(lm.getProviders(true));
 	       	
-	       	String gpsLoc = "GPS|: Latitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
-	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
-	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
+	       	String gpsLoc = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
+	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
+	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
 	      	
 	      	
 	      	
 	      	
 	    	
 	      	
-	      	String gpsLoc2 = "Passive|: Latitude : " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  ) 
-	       			+" Longitude : " + toString().valueOf(lm.getLastKnownLocation("passive").getLongitude()  ) 
-	       			+" Altitude : " + toString().valueOf(lm.getLastKnownLocation("passive").getAltitude()  ) ;
+	      	String gpsLoc2 = "Passive|: Lat: " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  )
+	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation("passive").getLongitude()  )
+	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation("passive").getAltitude()  ) ;
 	      	
 	      	
 	      //  Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
 	      //	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
 	      	
 	       	
-	       	String cellData = "CDMA :"+toString().valueOf(new CdmaCellLocation())
-	      			+" |GSM :" +toString().valueOf(new GsmCellLocation());
+	       	String cellData = "|CDMA:"+toString().valueOf(new CdmaCellLocation())
+	      			+" |GSM:" +toString().valueOf(new GsmCellLocation());
 	       	
 	      	Toast.makeText( getApplicationContext(), gotProviders +" | \n"+gpsLoc +" | \n"+gpsLoc2+" | \n"+cellData, Toast.LENGTH_LONG ).show();
 	      	

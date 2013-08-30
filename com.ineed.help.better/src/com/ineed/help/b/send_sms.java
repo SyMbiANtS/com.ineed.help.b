@@ -202,8 +202,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	    	 {
 	    		 Toast.makeText( getApplicationContext(), getString(R.string.weird_phone_name) +": " +callPhone, Toast.LENGTH_SHORT ).show();	    		 
 	    	 }
-	    	 
-	    	 
+
 	     }  
 		 else
 		 {
@@ -221,10 +220,8 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	        {
 	        	 if (sendPhone.length()>1)
 		    	 {
-	   		     	Toast.makeText( getApplicationContext(), 
-	  										getString(R.string.send_name) +": " +sendPhone, Toast.LENGTH_SHORT ).show();
-	   		     	
-	  					
+	   		     	Toast.makeText( getApplicationContext(), getString(R.string.send_name) +": " +sendPhone, Toast.LENGTH_SHORT ).show();
+
 		    	 }
 		    	 else
 		    	 {
@@ -470,7 +467,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 
                  if (sendPhone.length()>1)
                  {
-                    // sendSMS(sendPhone, "Alf-A-All-A: "+sendTXT);
+                    // sendSMS(sendPhone, "HelpMe: "+sendTXT);
                      if (gpsReady == true)
                          {
                              sendGpsMessage(sendPhone);
@@ -483,7 +480,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
                                     sendTXT="Call me, i need help!";
                              }
 
-                             sendSMS(sendPhone, sendTXT);
+                             sendSMS(sendPhone, "HelpMe: "+sendTXT);
                          }
                  }
 	    	 }
@@ -500,7 +497,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	        	}
 	        }
 	        
-	        Toast.makeText( getApplicationContext(), "iNeedHelp! HelpMe! Alf-A-All-A", Toast.LENGTH_LONG ).show();
+	        Toast.makeText( getApplicationContext(), sendTXT, Toast.LENGTH_LONG ).show();
 	 }
 	 
 	 
@@ -772,7 +769,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 				 catch (Exception e) 
 		       		{
 		       			Toast.makeText( getApplicationContext(), 
-			           			"GOT ERROR iNiT GPS 1"+ e.toString(),
+			           			"GOT ERROR iNiT GPS 1 "+ e.toString(),
 			           			Toast.LENGTH_LONG ).show();
 		       		}
 	       	
@@ -796,9 +793,9 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 	       	String gLat = toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude() );
 	       	String gLong = toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  );
 	       	String gAlt = toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  );
-			   String gpsLoc1 = "GPS|: Latitude : " + gLat +" Longitude : " +  gLong	+" Altitude : " + gAlt ;
+			   String gpsLoc1 = "GPS|: Lat: " + gLat +" Long: " +  gLong	+" Alt: " + gAlt ;
 			      	
-			   gpsLoc = "GPS|Lat" + gLat +"Long" + gLong +"Alt" + gAlt ;	      	
+			   gpsLoc = "GPS|Lat:" + gLat +"Long:" + gLong +"Alt:" + gAlt ;
 			    //passive data  	
 			      	
 			    	String pLat = toString().valueOf(lm.getLastKnownLocation(pR).getLatitude() );
@@ -806,7 +803,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 			       	String pAlt = toString().valueOf(lm.getLastKnownLocation(pR).getAltitude()  );	
 			       	
 			       	
-			   String gpsLoc2 = "Passive|: Latitude : " + pLat +" Longitude : " + pLong +" Altitude : " + pAlt ;
+			   String gpsLoc2 = "Passive|: Lat: " + pLat +" Long: " + pLong +" Alt: " + pAlt ;
 			      	
 			   passLoc = "Pas|Lat" + pLat + "Long" + pLong	+"Alt" + pAlt ;
 			      	
