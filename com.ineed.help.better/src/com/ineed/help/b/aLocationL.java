@@ -108,7 +108,7 @@ public class aLocationL extends Application implements LocationListener
 	       			
 
 	       		 lm.removeUpdates(this);
-	    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 444, 3, this);
+	    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4444, 3, this);
 
 	  	      	this.onLocationChanged(loc);
 	       			
@@ -122,7 +122,7 @@ public class aLocationL extends Application implements LocationListener
 	       	}	
 	       	       	else
 	       	{
-	    // lm.removeUpdates(this);
+	         lm.removeUpdates(this);
 		// lm.setTestProviderEnabled(gpsProvider, true);
 		     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 44444, 3, this);
 

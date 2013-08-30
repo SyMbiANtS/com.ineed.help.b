@@ -480,7 +480,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
                          {
                              if (sendTXT.length()<1)
                              {
-                                    sendTXT="Come i need help!";
+                                    sendTXT="Call me, i need help!";
                              }
 
                              sendSMS(sendPhone, sendTXT);
@@ -737,7 +737,7 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 			       		catch (Exception e) 
 			       		{
 			       			Toast.makeText( getApplicationContext(), 
-				           			"GOT ERROR iNiT GPS g"+ e.toString(),
+				           			"GOT ERROR iNiT GPS g "+ e.toString(),
 				           			Toast.LENGTH_SHORT ).show();
 			       		}
 			       	}	
