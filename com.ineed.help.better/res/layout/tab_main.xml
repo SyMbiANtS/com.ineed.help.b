@@ -13,11 +13,12 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:gravity="fill"
-                >
+                android:layout_height="44dp"
+                android:layout_gravity="top"
+                android:textAlignment="center"
+                android:gravity="bottom|center_vertical">
 
-</TabWidget>
+            </TabWidget>
         
     
      <FrameLayout

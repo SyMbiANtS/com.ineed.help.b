@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ineed.help.b"
-    android:versionCode="83"
+    android:versionCode="84"
     android:versionName="Better" android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="18" />
