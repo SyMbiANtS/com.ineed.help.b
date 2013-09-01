@@ -10,15 +10,20 @@ import java.util.TimerTask;
 
 import com.ineed.help.b.R;
 import com.ineed.help.b.aLocationL;
+import com.ineed.help.b.ContactList;
+
+import android.os.Build;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Application;
+import android.content.CursorLoader;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.SyncStateContract.Constants;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +37,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.app.PendingIntent;
-import android.telephony.*;
 import android.location.*;
 import android.location.GpsStatus.Listener;
 import android.telephony.*;
@@ -56,8 +60,9 @@ import java.util.Locale;
 public class app_start extends Activity implements OnCheckedChangeListener 
 {
 	  
-
-	
+    public String ContactPhone = "0";
+	public String ContactSms = "0";
+    public int ContactSwap = 0;
 	
 /*	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -158,9 +163,9 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		}
 		
 		//closeBtnBehavior(0);
-		
 
-		
+
+
 
 /*        Button btnContact = (Button) findViewById(R.id.btn_contact);
 		
@@ -271,11 +276,15 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		getResources().updateConfiguration(config,null);
 		
 		*/
-		
-	
-       
+        Button btnContact = (Button) findViewById(R.id.btn_contact);
 
-		
+        btnContact.setOnClickListener(openContact);
+
+        Button btnSms = (Button) findViewById(R.id.buttonSms);
+
+        btnSms.setOnClickListener(contactSms);
+
+
 	}
     
     private OnClickListener getGps = new OnClickListener() {
@@ -290,7 +299,143 @@ public class app_start extends Activity implements OnCheckedChangeListener
 			
 		}
 	};
-    
+
+    private OnClickListener openContact = new OnClickListener(){
+
+        @Override
+        public void onClick(View v)
+        {
+            ContactSwap = 3;
+            getContactNum();
+
+        }
+
+
+    };
+
+    private OnClickListener contactSms = new OnClickListener(){
+
+        @Override
+        public void onClick(View v)
+        {
+            ContactSwap = 7;
+            getContactNum();
+
+        }
+
+
+    };
+
+
+    final static int PICK_CONTACT_REQUEST = 0;
+
+
+    public String getContactNum()
+    {
+        String Contact1 = "007";
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+        try
+        {
+            startActivityForResult(intent, PICK_CONTACT_REQUEST  );
+
+
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally {
+
+        }
+
+        return Contact1;
+    }
+    @Override
+
+    public void onActivityResult(int reqCode, int resCode, Intent data) {
+        super.onActivityResult(reqCode, resCode, data);
+        String ContNum= "112";
+        switch (reqCode) {
+            case (PICK_CONTACT_REQUEST) :
+
+                if (resCode == Activity.RESULT_OK) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+                    {
+                        ContNum = getContactNumber11(data);
+
+                        setPhoneNumber(ContNum);
+                    }
+                }
+                break;
+        }
+    }
+
+
+    @TargetApi(11)
+    public String getContactNumber11(Intent da)
+    {
+        String ContactNumber = "11";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        {
+            CursorLoader cL = new CursorLoader(this, da.getData(), null, ContactsContract.Data._ID , null , null);
+
+
+            try
+            {
+                Cursor c = cL.loadInBackground();
+                c.moveToFirst();
+                String CiD = c.getString(c.getColumnIndex(ContactsContract.Data._ID)) ;
+
+                ContactNumber = c.getString(c.getColumnIndex(ContactsContract.Data.LOOKUP_KEY)) ;
+
+                Uri urci = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                CursorLoader ph = new CursorLoader(this, urci, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD , null , null);
+
+                Cursor phNu = ph.loadInBackground();
+                phNu.moveToFirst();
+                ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getApplicationContext(),
+                        "GOT ERROR " + e.toString(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        return ContactNumber;
+
+    }
+
+    private void setPhoneNumber(String phNum)
+    {
+        phNum = PhoneNumberUtils.stripSeparators(phNum);
+        EditText et = (EditText)findViewById(R.id.editText1);
+        EditText ste = (EditText)findViewById(R.id.editText3);
+
+        if (ContactSwap == 3)
+        {
+        et.setText(phNum);
+        ContactPhone = phNum;
+        }
+        if (ContactSwap == 7)
+        {
+            ste.setText(phNum);
+            ContactSms = phNum;
+
+        }
+    }
+
+
+
+
     private void getNewGps()
     {
     	aLocationL aloc = new aLocationL(); 
@@ -355,23 +500,16 @@ public class app_start extends Activity implements OnCheckedChangeListener
                     else
                         {
 
-      	
                               lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
          	                  lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
-      	
       	
          	                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         }
      // 	gpsLoc = loc.toString();
      // lm. ;
-      	
 
-	    	
-  
-      	
      // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
-       
-      	
+
       	
 	       	}
 	      
@@ -380,12 +518,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 	       	String gpsLoc = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
 	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
 	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
-	      	
-	      	
-	      	
-	      	
-	    	
-	      	
+
 	      	String gpsLoc2 = "Passive|: Lat: " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  )
 	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation("passive").getLongitude()  )
 	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation("passive").getAltitude()  ) ;

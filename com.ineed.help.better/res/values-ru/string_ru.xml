@@ -13,10 +13,10 @@
     <string name="app_button3">HelpMe! extra button</string>
     <string name="default_sms_text">НужнаПомощь!: ситуация сложная</string>
     <string name="default_phone_number">112</string>
-    <string name="bye_word">Будьте добры и здоровы =)</string>
+    <string name="bye_word">Введите номер телефона \n Добра и радости =)</string>
     <string name="hello_word">HelpMe! extra button</string>
     <string name="work_in_progress_word">HelpMe! extra button</string>
-    <string name="open_contact">Введите номер телефона для вызова</string>
+    <string name="open_contact">Выбрать из записной книжки</string>
     <string name="close_app_button">Закрыть приложение</string>
     <string name="check_button">HelpMe! EXTRA Кнопка</string>
     <string name="tab1_text">Телефон</string>
@@ -35,4 +35,5 @@
     <string name="weird_send_name">СМС номер слишком короткий!!!!</string>
     <string name="wrong_send_name">НЕТ СМС номера!!!!!!</string>
     <string name="check_gps">Проверить доступность GPS</string>
+    <string name="sms_button">Выбрать из списка контактов</string>
 </resources>

@@ -13,6 +13,7 @@ import com.ineed.help.b.aLocationL;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.app.PendingIntent;
 import android.location.Criteria;
 import android.location.GpsStatus;
@@ -42,8 +43,8 @@ import android.text.format.Time;
 import android.view.ViewGroup.LayoutParams;
 import android.util.Log;
 
-
-
+import android.provider.ContactsContract;
+import android.provider.Contacts.People;
 
 
 public class send_sms extends Activity  
@@ -159,6 +160,11 @@ public class send_sms extends Activity
 					return true;
 				}
 			});
+
+
+            /* WorkAround of contact open button */
+
+
 //	 	 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //	      lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1111, 1, this.locationListener);
 	      
@@ -169,7 +175,8 @@ public class send_sms extends Activity
 	           
 		}
 
-private OnLongClickListener finishThis = new OnLongClickListener() {
+private OnLongClickListener finishThis = new OnLongClickListener()
+    {
 	
 	@Override
 	public boolean onLongClick(View v) {
@@ -185,7 +192,10 @@ private OnLongClickListener finishThis = new OnLongClickListener() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-};
+
+
+    };
+
 
 
 

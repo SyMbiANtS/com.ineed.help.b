@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ineed.help.b"
-    android:versionCode="72"
-    android:versionName="Better" android:installLocation="auto">
+    android:versionCode="82"
+    android:versionName="Charlie" android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="15" />
     <application 
@@ -43,8 +43,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    
-    
+
+    //* Charlie version */
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     
    //**BRICK  RECORD_AUDIO  CAMERA  BIND_APPWIDGET */
 

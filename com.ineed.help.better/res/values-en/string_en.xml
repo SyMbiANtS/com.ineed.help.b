@@ -13,12 +13,12 @@
     <string name="app_button3">HelpMe! extra button</string>
     <string name="default_sms_text">HelpMe! i am in danger!</string>
     <string name="default_phone_number">911</string>
-    <string name="bye_word">Be good and sunny =)</string>
+    <string name="bye_word">Enter phone call number \n Be gooddy =)</string>
     <string name="hello_word">HelpMe! extra button</string>
     <string name="work_in_progress_word">HelpMe! extra button</string>
     <string name="close_app_button">Close application</string>
     <string name="check_button">HelpMe! extra button</string>
-    <string name="open_contact">Enter phone call number</string>
+    <string name="open_contact">Choose from contact list</string>
     <string name="tab1_text">Phone</string>
     <string name="tab2_text">SMS</string>
     <string name="tab3_text">Internet</string>
@@ -34,4 +34,5 @@
     <string name="weird_send_name">WRONG Number to send SMS!!!</string>
     <string name="wrong_send_name">NO Number to send SMS!!!</string>
     <string name="check_gps">Check gps availability</string>
+    <string name="sms_button">Choose from contact list</string>
 </resources>

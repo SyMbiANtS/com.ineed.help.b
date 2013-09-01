@@ -23,7 +23,7 @@
      <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
             android:gravity="center" >
 
             <LinearLayout
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" >
-                >
+
 
                 <TableLayout
                     android:id="@+id/table_screen1"
@@ -58,9 +58,9 @@
                             android:id="@+id/toggleButton1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@+string/app_toggleButton1"
-                            android:textOff="@+string/app_toggleButton1Off"
-                            android:textOn="@+string/app_toggleButton1On"
+                            android:text="@string/app_toggleButton1"
+                            android:textOff="@string/app_toggleButton1Off"
+                            android:textOn="@string/app_toggleButton1On"
                             />
 
                     </TableRow>
@@ -106,9 +106,9 @@
                             android:ems="10"
                             
                             android:inputType="phone"
-                            
+                            android:gravity="center_horizontal"
                             android:singleLine="true"
-                            android:text="@+string/default_phone_number">
+                            android:text="@string/default_phone_number">
 
                             <requestFocus />
                         </EditText>
@@ -122,10 +122,11 @@
                         android:gravity="center" >
 
                         <Button
+
                             android:id="@+id/btn_contact"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@+string/open_contact" />
+                            android:text="@string/open_contact" />
                
 
                     </TableRow>
@@ -156,7 +157,7 @@
                         android:id="@+id/button1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@+string/app_button1"
+                        android:text="@string/app_button1"
                         android:background="#000000"
                         android:textColor="#009900"
                         android:gravity="center"
@@ -167,10 +168,19 @@
                         android:id="@+id/button3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@+string/close_app_button"
+                        android:text="@string/close_app_button"
                         android:layout_gravity="bottom"
 
                         />
+
+                    <TableRow
+                        android:id="@+id/tableRow22"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        </TableRow>
+
+
 
                 </TableLayout>
 
@@ -200,7 +210,7 @@
                             android:id="@+id/editText3"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@+string/enter_sms_number"
+                            android:hint="@string/enter_sms_number"
                             android:inputType="phone" 
                             android:gravity="center_horizontal" />
 
@@ -217,7 +227,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine" 
-                            android:text="@+string/default_sms_text"
+                            android:text="@string/default_sms_text"
                             android:maxLength="160"
                             android:height="100dp"
                             android:gravity="center_horizontal" />
@@ -225,14 +235,31 @@
                     </TableRow>
 
                     <TableRow
+                        android:id="@+id/tableRow23"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center_horizontal">
+
+                        <Button
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sms_button"
+                            android:gravity="center"
+                            android:minHeight="40dp"
+                            android:id="@+id/buttonSms"
+                             />
+                    </TableRow>
+
+                    <TableRow
                         android:id="@+id/tableRow9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal">
+
                     <Button android:id="@+id/button2"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="@+string/save_changes_text"
+                        android:text="@string/save_changes_text"
                         android:gravity="center"
                         android:background="#000000"
                         android:textColor="#009900"
@@ -250,7 +277,14 @@
                         
              
 
-                    <Button android:id="@+id/buttonCheckGps" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@+string/check_gps" android:gravity="center" /></TableRow>
+                    <Button
+                        android:id="@+id/buttonCheckGps"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/check_gps"
+                        android:gravity="center" />
+
+                    </TableRow>
                 </TableLayout>
 
             </LinearLayout>
