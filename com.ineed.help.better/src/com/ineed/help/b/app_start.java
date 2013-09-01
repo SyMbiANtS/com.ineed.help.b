@@ -368,6 +368,12 @@ public class app_start extends Activity implements OnCheckedChangeListener
 
                         setPhoneNumber(ContNum);
                     }
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+                    {
+                        ContNum = getContactNumber7(data);
+
+                        setPhoneNumber(ContNum);
+                    }
                 }
                 break;
         }
@@ -397,8 +403,29 @@ public class app_start extends Activity implements OnCheckedChangeListener
 
                 Cursor phNu = ph.loadInBackground();
                 phNu.moveToFirst();
-                ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                boolean ContactType = false;
+                if (phNu.moveToFirst())
+                {
+                    do {
+                        int conType = phNu.getInt(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 
+                        if (conType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                            ContactType = true;
+                        }
+                        else
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                        }
+
+
+                    }
+                    while (!ContactType && phNu.moveToNext());
+
+
+
+                }
 
             }
             catch (Exception e)
@@ -413,6 +440,68 @@ public class app_start extends Activity implements OnCheckedChangeListener
         return ContactNumber;
 
     }
+
+    @TargetApi(7)
+    public String getContactNumber7(Intent da)
+    {
+        String ContactNumber = "7";
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+        {
+            Cursor c = managedQuery( da.getData(), null, ContactsContract.Data._ID , null , null);
+
+
+            try
+            {
+
+                c.moveToFirst();
+                String CiD = c.getString(c.getColumnIndex(ContactsContract.Data._ID)) ;
+
+                ContactNumber = c.getString(c.getColumnIndex(ContactsContract.Data.LOOKUP_KEY)) ;
+
+                Uri urci = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                Cursor phNu = managedQuery(urci, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD , null , null);
+
+
+                phNu.moveToFirst();
+                boolean ContactType = false;
+                if (phNu.moveToFirst())
+                {
+                    do {
+                        int conType = phNu.getInt(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+
+                        if (conType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                            ContactType = true;
+                        }
+                        else
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                        }
+
+
+                    }
+                    while (!ContactType && phNu.moveToNext());
+
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getApplicationContext(),
+                        "GOT ERROR " + e.toString(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        return ContactNumber;
+
+    }
+
 
     private void setPhoneNumber(String phNum)
     {
