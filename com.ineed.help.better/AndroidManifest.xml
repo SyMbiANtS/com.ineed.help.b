@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ineed.help.b"
-    android:versionCode="84"
+    android:versionCode="85"
     android:versionName="Better" android:installLocation="auto">
 
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="18" />
@@ -17,11 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        	<activity
+       <activity
             android:name=".send_sms"
             android:label="iNeedHelp" >
 
         </activity>
+
 
     </application>
     

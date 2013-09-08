@@ -25,6 +25,7 @@ import android.os.Bundle;
 
 import android.provider.ContactsContract;
 import android.provider.SyncStateContract.Constants;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TabHost;
@@ -102,7 +103,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 */
 
     	  Resources res =  getResources();
-  		Configuration newConfig = new Configuration(res.getConfiguration());
+  		  Configuration newConfig = new Configuration(res.getConfiguration());
           Locale le_locale =  res.getConfiguration().locale;
           String ll = le_locale.getDisplayName().toLowerCase();
   	     if (ll.contains("ru") ||ll.contains("ru_ru") || ll.contains("russian") || ll.contains("русский"))
@@ -194,9 +195,9 @@ public class app_start extends Activity implements OnCheckedChangeListener
         
       
 	//	Toast.makeText( getApplicationContext(), "this on create ends", Toast.LENGTH_SHORT ).show();
-        
-        
-        
+
+
+
     }
     
     @Override
@@ -218,64 +219,71 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		super.onStart();
 		//Toast.makeText( getApplicationContext(), "this on start start", Toast.LENGTH_SHORT ).show();
 		ToggleButton toggleHelpButton;
-		
+
 		toggleHelpButton = (ToggleButton) findViewById(R.id.toggleButton1);
 		TabHost tabs = (TabHost) findViewById(android.R.id.tabhost);
 		if (toggleHelpButton.isEnabled() == true)
 		{
-			
+
 			if (toggleHelpButton.isChecked()==false)
 			{
 				toggleHelpButton.setOnCheckedChangeListener(this);
 		//		Toast.makeText( getApplicationContext(), "this 22222", Toast.LENGTH_SHORT ).show();
 				closeBtnBehaviour(1);
 				tabs.setCurrentTab(1);
-				
+
 			}
 			else
 			{
 		//		Toast.makeText( getApplicationContext(), "this 33333", Toast.LENGTH_SHORT ).show();
-			toggleHelpButton.setOnCheckedChangeListener(null);
-				
-			closeBtnBehaviour(0);
-			tabs.setCurrentTab(1);
+			    toggleHelpButton.setOnCheckedChangeListener(null);
+
+			    closeBtnBehaviour(0);
+			    tabs.setCurrentTab(1);
 			}
-			
-			
+
+
 			//toggleHelpButton.setChecked(true);
 		//toggleHelpButton.setEnabled(true);
-		
+
 		//closeBtnBehavior(1);
-		
+
 		//
 		//toggleHelpButton.setEnabled(false);
-		
+
 		//toggleHelpButton.setOnCheckedChangeListener(this);
 		}
 		else
 		{
 		//	Toast.makeText( getApplicationContext(), "this 11111", Toast.LENGTH_SHORT ).show();
-			
+
 			toggleHelpButton.setEnabled(true);
 			toggleHelpButton.setChecked(true);
 			closeBtnBehaviour(1);
 			toggleHelpButton.setOnCheckedChangeListener(this);
-			
+
 			//toggleHelpButton.setOnCheckedChangeListener(null);
 		}
-		
+
 		Button checkGps = (Button) findViewById(R.id.buttonCheckGps);
-		
+
 		checkGps.setOnClickListener(getGps);
-		
+
 		/*
 		Locale locale = new Locale("ru");
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;
 		getResources().updateConfiguration(config,null);
-		
+
 		*/
+
+        setButtons();
+
+	}
+
+    private void setButtons()
+    {
         Button btnContact = (Button) findViewById(R.id.btn_contact);
 
         btnContact.setOnClickListener(openContact);
@@ -283,9 +291,9 @@ public class app_start extends Activity implements OnCheckedChangeListener
         Button btnSms = (Button) findViewById(R.id.buttonSms);
 
         btnSms.setOnClickListener(contactSms);
+    }
 
 
-	}
     
     private OnClickListener getGps = new OnClickListener() {
 		
@@ -306,7 +314,19 @@ public class app_start extends Activity implements OnCheckedChangeListener
         public void onClick(View v)
         {
             ContactSwap = 3;
-            getContactNum();
+            if (ContactPhone.equals("0"))
+            {
+                getContactNum();
+            }
+            else
+            {
+                EditText et = (EditText)findViewById(R.id.editText1);
+                et.setText(ContactPhone);
+                ContactPhone = "0";
+            }
+
+
+
 
         }
 
@@ -319,7 +339,24 @@ public class app_start extends Activity implements OnCheckedChangeListener
         public void onClick(View v)
         {
             ContactSwap = 7;
-            getContactNum();
+
+            if (ContactSms.equals("0") )
+            {
+
+                   //new ContactList().getContactNum();
+                    getContactNum();
+
+            }
+            else
+            {
+                EditText et = (EditText)findViewById(R.id.editText3);
+                if (et.getText().equals(ContactSms) != true)
+                {
+                    et.setText(ContactSms);
+                    ContactSms = "0";
+                }
+            }
+
 
         }
 
@@ -336,17 +373,34 @@ public class app_start extends Activity implements OnCheckedChangeListener
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
 
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET );
+
+
+
         try
         {
-            startActivityForResult(intent, PICK_CONTACT_REQUEST  );
+            startActivityForResult(intent,  PICK_CONTACT_REQUEST );
+            if (ContactSwap == 3)
+            {
+                Contact1 = ContactPhone;
+
+            }
+            if (ContactSwap == 7)
+            {
+                Contact1  = ContactSms;
+            }
 
 
         }
         catch (Exception e)
         {
-
+            Toast.makeText(getApplicationContext(),
+                    "GOT ERROR " + e.toString(),
+                    Toast.LENGTH_LONG).show();
         }
-        finally {
+        finally
+        {
 
         }
 
@@ -364,66 +418,74 @@ public class app_start extends Activity implements OnCheckedChangeListener
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
                     {
-                        ContNum = getContactNumber11(data);
+                        getContactNumber11(data);
 
-                        setPhoneNumber(ContNum);
                     }
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
                     {
-                        ContNum = getContactNumber7(data);
+                        getContactNumber7(data);
 
-                        setPhoneNumber(ContNum);
                     }
+                    finishActivity(reqCode);
                 }
                 break;
+
         }
+
+
     }
 
 
     @TargetApi(11)
-    public String getContactNumber11(Intent da)
+    public String getContactNumber11(Intent data)
     {
         String ContactNumber = "11";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
         {
-            CursorLoader cL = new CursorLoader(this, da.getData(), null, ContactsContract.Data._ID , null , null);
+            CursorLoader cL = new CursorLoader(this, data.getData(), null, ContactsContract.Data._ID , null , null);
 
 
             try
             {
                 Cursor c = cL.loadInBackground();
+               // Toast.makeText(getApplicationContext(), "NO ERROR CL", Toast.LENGTH_LONG).show();
                 c.moveToFirst();
                 String CiD = c.getString(c.getColumnIndex(ContactsContract.Data._ID)) ;
 
                 ContactNumber = c.getString(c.getColumnIndex(ContactsContract.Data.LOOKUP_KEY)) ;
 
                 Uri urci = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                CursorLoader ph = new CursorLoader(this, urci, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD , null , null);
+                cL.setUri(urci);
+                cL.setSelection(ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD);
+                //CursorLoader ph = new CursorLoader(this, urci, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD , null , null);
 
-                Cursor phNu = ph.loadInBackground();
-                phNu.moveToFirst();
+                Cursor phNu = cL.loadInBackground();
+                //Toast.makeText(getApplicationContext(), "NO ERROR PHNU", Toast.LENGTH_LONG).show();
                 boolean ContactType = false;
+                phNu.moveToFirst();
+
                 if (phNu.moveToFirst())
                 {
+                   // Toast.makeText(getApplicationContext(), "NO ERROR MOVEFIRST", Toast.LENGTH_LONG).show();
                     do {
                         int conType = phNu.getInt(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-
+                       // Toast.makeText(getApplicationContext(), "NO ERROR DOWHILE", Toast.LENGTH_LONG).show();
                         if (conType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                         {
                             ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                        //    Toast.makeText(getApplicationContext(), "NO ERROR MOBILE", Toast.LENGTH_LONG).show();
                             ContactType = true;
                         }
                         else
                         {
                             ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                         //   Toast.makeText(getApplicationContext(), "NO ERROR OTHER TYPE", Toast.LENGTH_LONG).show();
                         }
 
 
                     }
                     while (!ContactType && phNu.moveToNext());
-
-
 
                 }
 
@@ -431,11 +493,14 @@ public class app_start extends Activity implements OnCheckedChangeListener
             catch (Exception e)
             {
                 Toast.makeText(getApplicationContext(),
-                        "GOT ERROR " + e.toString(),
+                        "GOT ERROR getContact11" + e.toString(),
                         Toast.LENGTH_LONG).show();
             }
 
         }
+       // Toast.makeText(getApplicationContext(), "NUmb"+ContactNumber, Toast.LENGTH_LONG).show();
+
+        setPhoneNumber(ContactNumber, data);
 
         return ContactNumber;
 
@@ -496,30 +561,64 @@ public class app_start extends Activity implements OnCheckedChangeListener
                         Toast.LENGTH_LONG).show();
             }
 
+
         }
+
+        setPhoneNumber(ContactNumber, da);
 
         return ContactNumber;
 
     }
 
 
-    private void setPhoneNumber(String phNum)
+    private void setPhoneNumber(String phNum, Intent phones)
     {
-        phNum = PhoneNumberUtils.stripSeparators(phNum);
-        EditText et = (EditText)findViewById(R.id.editText1);
-        EditText ste = (EditText)findViewById(R.id.editText3);
-
-        if (ContactSwap == 3)
+        try
         {
-        et.setText(phNum);
-        ContactPhone = phNum;
-        }
-        if (ContactSwap == 7)
-        {
-            ste.setText(phNum);
-            ContactSms = phNum;
+
+                phNum = PhoneNumberUtils.stripSeparators(phNum);
+
+
+
+        //            if (ContactSwap == 3)
+        //                {
+
+                            EditText et = (EditText)findViewById(R.id.editText1);
+                            et.setHint(phNum);
+                            //et.setText(phNum);
+
+                            et.setText(phNum);
+                            et.refreshDrawableState();
+
+                            ContactPhone = phNum;
+                            ContactSwap = 0;
+                           openContact = null;
+        //                }
+        //            if (ContactSwap == 7)
+        //                {
+
+
+                            EditText ste = (EditText)findViewById(R.id.editText3);
+                            ContactSms = phNum;
+                            ste.setHint(phNum);
+                            //ste.setText(phNum);
+                            ste.setText(phNum);
+
+                            ContactSwap = 0;
+                            contactSms = null;
+          //              }
+
 
         }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "GOT ERROR setPhoneNumber " + e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
+
+        phones = null;
+       // setButtons();
     }
 
 

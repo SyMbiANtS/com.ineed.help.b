@@ -32,27 +32,27 @@ import android.widget.Toast;
 public class ContactList extends Activity
 {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_main);
-        Intent intent = getIntent();
-        getContactNum(intent);
-    }
+  //  @Override
+  //  public void onCreate(Bundle savedInstanceState) {
+  //      super.onCreate(savedInstanceState);
+      //  setContentView(R.layout.tab_main);
+      //  Intent intent = getIntent();
+      //  getContactNum(intent);
+   // }
 
     final static int PICK_CONTACT_REQUEST = 0;
 
 
-    public String getContactNum(Intent da)
+    public String getContactNum()
     {
         String ContNumber = "911";
 
-        da = new Intent(Intent.ACTION_PICK);
-        da.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        Intent intenti = new Intent(Intent.ACTION_PICK);
+        intenti.setType(ContactsContract.Contacts.CONTENT_TYPE);
 
         try
         {
-            startActivityForResult(da, PICK_CONTACT_REQUEST  );
+            startActivityForResult(intenti, PICK_CONTACT_REQUEST  );
         }
         catch (Exception e)
         {
