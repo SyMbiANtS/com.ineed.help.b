@@ -372,7 +372,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
         String Contact1 = "007";
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET );
 
@@ -426,7 +426,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
                         getContactNumber7(data);
 
                     }
-                    finishActivity(reqCode);
+                    finishActivity(0);
                 }
                 break;
 
@@ -593,9 +593,9 @@ public class app_start extends Activity implements OnCheckedChangeListener
                             ContactPhone = phNum;
                             ContactSwap = 0;
                            openContact = null;
-        //                }
-        //            if (ContactSwap == 7)
-        //                {
+         //               }
+         //           if (ContactSwap == 7)
+         //               {
 
 
                             EditText ste = (EditText)findViewById(R.id.editText3);
@@ -606,7 +606,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 
                             ContactSwap = 0;
                             contactSms = null;
-          //              }
+       //                 }
 
 
         }
@@ -617,7 +617,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
                     Toast.LENGTH_LONG).show();
         }
 
-        phones = null;
+       // phones = null;
        // setButtons();
     }
 
@@ -634,25 +634,23 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		// Criteria criteria = new Criteria();
 		 String gR = "gps";
          Location loc;
-    try
-        {
-		 
-		 loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
 	      //	loc.setLatitude(0.0);
 	      //	loc.setAltitude(0.0);
 	      //	loc.setTime(System.currentTimeMillis());
 	     //	LocationProvider gps = lm.getProvider("gps");
-	     	
-	     	
-	     	
-	       	if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) != true)
+
+        try
+        {
+
+
+            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) != true)
 	       	{
 	       		Toast.makeText( getApplicationContext(), 
 	           			"no gps provider", 
 	           			Toast.LENGTH_LONG ).show();
-	       		try
-	       		{
-	       		
+
 	       			
 	       			//    Intent myIntent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS );
 	       			//    startActivity(myIntent);
@@ -660,77 +658,91 @@ public class app_start extends Activity implements OnCheckedChangeListener
 
 
 	       		 lm.removeUpdates(aloc);
-	    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 77, 11, aloc);
-	    		 
+	    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 777, 11, aloc);
+                loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	    
 	  	      	aloc.onLocationChanged(loc);
-	       			
-	       		}
-	       		catch (Exception e) 
-	       		{
-	       			Toast.makeText( getApplicationContext(), 
-		           			"GOT ERROR iNiT GPS 3 "+ e.toString(),
-		           			Toast.LENGTH_LONG ).show();
-	       		}
+
+
 	       	}	
 	       	       	else
 	       	{
 	            lm.removeUpdates(aloc);
 		        // lm.setTestProviderEnabled(gpsProvider, true);
-		         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 777, 11, aloc);
-
-                if (loc != null)
-                 {
+		         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 7777, 11, aloc);
+            //
+                loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	      	        aloc.onLocationChanged(loc);
+
+            }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText( getApplicationContext(),
+                    "GOT ERROR iNiT GPS 3 "+ e.toString() +" "+e.getCause() ,
+                    Toast.LENGTH_LONG ).show();
+        }
 	              //     	Location ewLoc = aloc.;
 	                    //loc = new Location(0,0);
-                 }
-                    else
-                        {
+          //      if (loc != null)
+          //      {
+          //          else
+          //              {
 
-                              lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
-         	                  lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
+          //                    lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+         //	                  lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
       	
-         	                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        }
+         //	                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+         //               }
+         //            }
      // 	gpsLoc = loc.toString();
      // lm. ;
 
      // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
 
-      	
-	       	}
-	      
-	       	String gotProviders = toString().valueOf(lm.getProviders(true));
-	       	
-	       	String gpsLoc = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
+
+                try
+                {
+
+
+                    String gotProviders = toString().valueOf(lm.getProviders(true));
+                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+	             	String gpsLoc = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
 	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
 	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
 
-	      	String gpsLoc2 = "Passive|: Lat: " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  )
+	             	String gpsLoc2 = "Passive|: Lat: " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  )
 	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation("passive").getLongitude()  )
 	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation("passive").getAltitude()  ) ;
-	      	
-	      	
+
+
+
 	      //  Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
 	      //	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
-	      	
-	       	
-	       	String cellData = "|CDMA:"+toString().valueOf(new CdmaCellLocation())
-	      			+" |GSM:" +toString().valueOf(new GsmCellLocation());
-	       	
-	      	Toast.makeText( getApplicationContext(), gotProviders +" | \n"+gpsLoc +" | \n"+gpsLoc2+" | \n"+cellData, Toast.LENGTH_LONG ).show();
+
+            String cdmaLoc = toString().valueOf(new CdmaCellLocation());
+            String gsmLoc = toString().valueOf(new GsmCellLocation());
+
+            String cellLoc ="";
+            if (cdmaLoc.length() > 11)	{	cellLoc += " CDMA:"+cdmaLoc; 	}
+            if (gsmLoc.length() > 11)	{	cellLoc += " |GSM:" +gsmLoc;   	}
+
+                    synchronized(SharedData.globalInstance)
+                    {
+                        SharedData.globalInstance.gpsCoordString =   gpsLoc +" | \n"+cellLoc ;
+                    }
+	      	Toast.makeText( getApplicationContext(), gotProviders +" | \n"+gpsLoc +" | \n"+gpsLoc2+" | \n"+cellLoc, Toast.LENGTH_LONG ).show();
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText( getApplicationContext(),
+                            "GOT ERROR iNiT GPS 4 "+ e.toString(),
+                            Toast.LENGTH_LONG ).show();
+                }
 	      	
 	    //  	Toast.makeText( getApplicationContext(), cellData, Toast.LENGTH_LONG ).show();
-		       
-        }
-            catch (Exception e)
-	        {
-	            	Toast.makeText( getApplicationContext(),
-   	            		"GOT ERROR iNiT GPS 4 "+ e.toString(),
-             			Toast.LENGTH_LONG ).show();
-	        }
-    	
+
+
     }
     
 	@Override

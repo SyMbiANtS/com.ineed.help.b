@@ -11,7 +11,7 @@
     <string name="enter_sms_number">Enter SMS number</string>
     <string name="app_button2">HelpMe! extra button</string>
     <string name="app_button3">HelpMe! extra button</string>
-    <string name="default_sms_text">HelpMe! i am in danger!</string>
+    <string name="default_sms_text">iNeedHelp!</string>
     <string name="default_phone_number">911</string>
     <string name="bye_word">Enter phone call number \n Be gooddy =)</string>
     <string name="hello_word">HelpMe! extra button</string>

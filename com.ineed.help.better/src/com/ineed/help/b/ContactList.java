@@ -74,6 +74,7 @@ public class ContactList extends Activity
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
                     {
                         getContactNumber11(data);
+                        finishActivity(0);
 
                     }
                 }

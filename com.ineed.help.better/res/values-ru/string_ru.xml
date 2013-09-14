@@ -11,9 +11,9 @@
     <string name="enter_sms_number">Введите СМС номер</string>
     <string name="app_button2">HelpMe! extra button</string>
     <string name="app_button3">HelpMe! extra button</string>
-    <string name="default_sms_text">НужнаПомощь!: ситуация сложная</string>
+    <string name="default_sms_text">НужнаПомощь!</string>
     <string name="default_phone_number">112</string>
-    <string name="bye_word">Введите номер телефона \n Добра и радости =)</string>
+    <string name="bye_word">Введите номер телефона \n Удачи! =)</string>
     <string name="hello_word">HelpMe! extra button</string>
     <string name="work_in_progress_word">HelpMe! extra button</string>
     <string name="open_contact">Выбрать из записной книжки</string>

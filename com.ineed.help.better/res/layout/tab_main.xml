@@ -229,7 +229,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine" 
                             android:text="@string/default_sms_text"
-                            android:maxLength="160"
+                            android:maxLength="140"
                             android:height="100dp"
                             android:gravity="center_horizontal" />
 
