@@ -1007,7 +1007,7 @@ private OnLongClickListener finishThis = new OnLongClickListener()
 	     //	Uri uri = Uri.parse("smsto:"+message);
 
             Intent smSend = new Intent(this, me.class);
-            smSend.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+         //   smSend.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 	      PendingIntent pi = PendingIntent.getActivity(this, 0, smSend, 0);
 	            
