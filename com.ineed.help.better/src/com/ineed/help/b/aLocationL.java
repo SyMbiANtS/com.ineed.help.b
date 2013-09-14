@@ -85,7 +85,10 @@ public class aLocationL extends Application implements LocationListener
 	    	
 		// Criteria criteria = new Criteria();
 		 String gR = "gps";
-		 Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+         try
+         {
+
+             Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	     // 	loc.setLatitude(0.0);
 	     // 	loc.setAltitude(0.0);
 	     // 	loc.setTime(System.currentTimeMillis());
@@ -99,9 +102,7 @@ public class aLocationL extends Application implements LocationListener
 	       		Toast.makeText( getApplicationContext(), 
 	           			"no gps provider aL",
 	           			Toast.LENGTH_SHORT ).show();
-	       		try
-	       		{
-	       		
+
 	       			
 	       			//    Intent myIntent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS );
 	       			//    startActivity(myIntent);
@@ -112,19 +113,12 @@ public class aLocationL extends Application implements LocationListener
 
 	  	      	this.onLocationChanged(loc);
 	       			
-	       		}
-	       		catch (Exception e) 
-	       		{
-	       			Toast.makeText( getApplicationContext(), 
-		           			"GOT ERROR iNiT GPS aL"+ e.toString(),
-		           			Toast.LENGTH_SHORT ).show();
-	       		}
+
 	       	}	
-	       	       	else
-	       	{
+
 	         lm.removeUpdates(this);
 		// lm.setTestProviderEnabled(gpsProvider, true);
-		     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 44444, 3, this);
+		     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 24444, 5, this);
 
 	      	this.onLocationChanged(loc);
 	 //     	Location ewLoc = aloc.; 
@@ -142,14 +136,21 @@ public class aLocationL extends Application implements LocationListener
 
      // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
 
-	       	}
+
 	      
-	       	thisData = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
-	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
-	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
-	      	
-	      	
-		 
+	       	thisData = "GPS|: Lat: " + toString().valueOf(loc.getLatitude()  )
+	       			+" Long: " + toString().valueOf(loc.getLongitude()  )
+	       			+" Alt: " + toString().valueOf(loc.getAltitude()  ) ;
+
+
+         }
+         catch (Exception e)
+         {
+             Toast.makeText( getApplicationContext(),
+                     "GOT ERROR iNiT GPS aL"+ e.toString(),
+                     Toast.LENGTH_SHORT ).show();
+         }
+
 		 return thisData;
 	 }
 

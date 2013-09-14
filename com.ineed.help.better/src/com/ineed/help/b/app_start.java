@@ -10,16 +10,22 @@ import java.util.TimerTask;
 
 import com.ineed.help.b.R;
 import com.ineed.help.b.aLocationL;
+import com.ineed.help.b.ContactList;
+
+import android.os.Build;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Application;
+import android.content.CursorLoader;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.SyncStateContract.Constants;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TabHost;
@@ -32,7 +38,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.app.PendingIntent;
-import android.telephony.*;
 import android.location.*;
 import android.location.GpsStatus.Listener;
 import android.telephony.*;
@@ -56,8 +61,9 @@ import java.util.Locale;
 public class app_start extends Activity implements OnCheckedChangeListener 
 {
 	  
-
-	
+    public String ContactPhone = "0";
+	public String ContactSms = "0";
+    public int ContactSwap = 0;
 	
 /*	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -97,7 +103,7 @@ public class app_start extends Activity implements OnCheckedChangeListener
 */
 
     	  Resources res =  getResources();
-  		Configuration newConfig = new Configuration(res.getConfiguration());
+  		  Configuration newConfig = new Configuration(res.getConfiguration());
           Locale le_locale =  res.getConfiguration().locale;
           String ll = le_locale.getDisplayName().toLowerCase();
   	     if (ll.contains("ru") ||ll.contains("ru_ru") || ll.contains("russian") || ll.contains("русский"))
@@ -158,9 +164,9 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		}
 		
 		//closeBtnBehavior(0);
-		
 
-		
+
+
 
 /*        Button btnContact = (Button) findViewById(R.id.btn_contact);
 		
@@ -189,9 +195,9 @@ public class app_start extends Activity implements OnCheckedChangeListener
         
       
 	//	Toast.makeText( getApplicationContext(), "this on create ends", Toast.LENGTH_SHORT ).show();
-        
-        
-        
+
+
+
     }
     
     @Override
@@ -213,70 +219,81 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		super.onStart();
 		//Toast.makeText( getApplicationContext(), "this on start start", Toast.LENGTH_SHORT ).show();
 		ToggleButton toggleHelpButton;
-		
+
 		toggleHelpButton = (ToggleButton) findViewById(R.id.toggleButton1);
 		TabHost tabs = (TabHost) findViewById(android.R.id.tabhost);
 		if (toggleHelpButton.isEnabled() == true)
 		{
-			
+
 			if (toggleHelpButton.isChecked()==false)
 			{
 				toggleHelpButton.setOnCheckedChangeListener(this);
 		//		Toast.makeText( getApplicationContext(), "this 22222", Toast.LENGTH_SHORT ).show();
 				closeBtnBehaviour(1);
 				tabs.setCurrentTab(1);
-				
+
 			}
 			else
 			{
 		//		Toast.makeText( getApplicationContext(), "this 33333", Toast.LENGTH_SHORT ).show();
-			toggleHelpButton.setOnCheckedChangeListener(null);
-				
-			closeBtnBehaviour(0);
-			tabs.setCurrentTab(1);
+			    toggleHelpButton.setOnCheckedChangeListener(null);
+
+			    closeBtnBehaviour(0);
+			    tabs.setCurrentTab(1);
 			}
-			
-			
+
+
 			//toggleHelpButton.setChecked(true);
 		//toggleHelpButton.setEnabled(true);
-		
+
 		//closeBtnBehavior(1);
-		
+
 		//
 		//toggleHelpButton.setEnabled(false);
-		
+
 		//toggleHelpButton.setOnCheckedChangeListener(this);
 		}
 		else
 		{
 		//	Toast.makeText( getApplicationContext(), "this 11111", Toast.LENGTH_SHORT ).show();
-			
+
 			toggleHelpButton.setEnabled(true);
 			toggleHelpButton.setChecked(true);
 			closeBtnBehaviour(1);
 			toggleHelpButton.setOnCheckedChangeListener(this);
-			
+
 			//toggleHelpButton.setOnCheckedChangeListener(null);
 		}
-		
+
 		Button checkGps = (Button) findViewById(R.id.buttonCheckGps);
-		
+
 		checkGps.setOnClickListener(getGps);
-		
+
 		/*
 		Locale locale = new Locale("ru");
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;
 		getResources().updateConfiguration(config,null);
-		
-		*/
-		
-	
-       
 
-		
+		*/
+
+        setButtons();
+
 	}
+
+    private void setButtons()
+    {
+        Button btnContact = (Button) findViewById(R.id.btn_contact);
+
+        btnContact.setOnClickListener(openContact);
+
+        Button btnSms = (Button) findViewById(R.id.buttonSms);
+
+        btnSms.setOnClickListener(contactSms);
+    }
+
+
     
     private OnClickListener getGps = new OnClickListener() {
 		
@@ -290,7 +307,323 @@ public class app_start extends Activity implements OnCheckedChangeListener
 			
 		}
 	};
-    
+
+    private OnClickListener openContact = new OnClickListener(){
+
+        @Override
+        public void onClick(View v)
+        {
+            ContactSwap = 3;
+            if (ContactPhone.equals("0"))
+            {
+                getContactNum();
+            }
+            else
+            {
+                EditText et = (EditText)findViewById(R.id.editText1);
+                et.setText(ContactPhone);
+                ContactPhone = "0";
+            }
+
+
+
+
+        }
+
+
+    };
+
+    private OnClickListener contactSms = new OnClickListener(){
+
+        @Override
+        public void onClick(View v)
+        {
+            ContactSwap = 7;
+
+            if (ContactSms.equals("0") )
+            {
+
+                   //new ContactList().getContactNum();
+                    getContactNum();
+
+            }
+            else
+            {
+                EditText et = (EditText)findViewById(R.id.editText3);
+                if (et.getText().equals(ContactSms) != true)
+                {
+                    et.setText(ContactSms);
+                    ContactSms = "0";
+                }
+            }
+
+
+        }
+
+
+    };
+
+
+    final static int PICK_CONTACT_REQUEST = 0;
+
+
+    public String getContactNum()
+    {
+        String Contact1 = "007";
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET );
+
+
+
+        try
+        {
+            startActivityForResult(intent,  PICK_CONTACT_REQUEST );
+            if (ContactSwap == 3)
+            {
+                Contact1 = ContactPhone;
+
+            }
+            if (ContactSwap == 7)
+            {
+                Contact1  = ContactSms;
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "GOT ERROR " + e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
+        finally
+        {
+
+        }
+
+        return Contact1;
+    }
+    @Override
+
+    public void onActivityResult(int reqCode, int resCode, Intent data) {
+        super.onActivityResult(reqCode, resCode, data);
+        String ContNum= "112";
+        switch (reqCode) {
+            case (PICK_CONTACT_REQUEST) :
+
+                if (resCode == Activity.RESULT_OK) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+                    {
+                        getContactNumber11(data);
+
+                    }
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+                    {
+                        getContactNumber7(data);
+
+                    }
+                    finishActivity(0);
+                }
+                break;
+
+        }
+
+
+    }
+
+
+    @TargetApi(11)
+    public String getContactNumber11(Intent data)
+    {
+        String ContactNumber = "11";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        {
+            CursorLoader cL = new CursorLoader(this, data.getData(), null, ContactsContract.Data._ID , null , null);
+
+
+            try
+            {
+                Cursor c = cL.loadInBackground();
+               // Toast.makeText(getApplicationContext(), "NO ERROR CL", Toast.LENGTH_LONG).show();
+                c.moveToFirst();
+                String CiD = c.getString(c.getColumnIndex(ContactsContract.Data._ID)) ;
+
+                ContactNumber = c.getString(c.getColumnIndex(ContactsContract.Data.LOOKUP_KEY)) ;
+
+                Uri urci = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                cL.setUri(urci);
+                cL.setSelection(ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD);
+                //CursorLoader ph = new CursorLoader(this, urci, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD , null , null);
+
+                Cursor phNu = cL.loadInBackground();
+                //Toast.makeText(getApplicationContext(), "NO ERROR PHNU", Toast.LENGTH_LONG).show();
+                boolean ContactType = false;
+                phNu.moveToFirst();
+
+                if (phNu.moveToFirst())
+                {
+                   // Toast.makeText(getApplicationContext(), "NO ERROR MOVEFIRST", Toast.LENGTH_LONG).show();
+                    do {
+                        int conType = phNu.getInt(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                       // Toast.makeText(getApplicationContext(), "NO ERROR DOWHILE", Toast.LENGTH_LONG).show();
+                        if (conType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                        //    Toast.makeText(getApplicationContext(), "NO ERROR MOBILE", Toast.LENGTH_LONG).show();
+                            ContactType = true;
+                        }
+                        else
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                         //   Toast.makeText(getApplicationContext(), "NO ERROR OTHER TYPE", Toast.LENGTH_LONG).show();
+                        }
+
+
+                    }
+                    while (!ContactType && phNu.moveToNext());
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getApplicationContext(),
+                        "GOT ERROR getContact11" + e.toString(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+        }
+       // Toast.makeText(getApplicationContext(), "NUmb"+ContactNumber, Toast.LENGTH_LONG).show();
+
+        setPhoneNumber(ContactNumber, data);
+
+        return ContactNumber;
+
+    }
+
+    @TargetApi(7)
+    public String getContactNumber7(Intent da)
+    {
+        String ContactNumber = "7";
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+        {
+            Cursor c = managedQuery( da.getData(), null, ContactsContract.Data._ID , null , null);
+
+
+            try
+            {
+
+                c.moveToFirst();
+                String CiD = c.getString(c.getColumnIndex(ContactsContract.Data._ID)) ;
+
+                ContactNumber = c.getString(c.getColumnIndex(ContactsContract.Data.LOOKUP_KEY)) ;
+
+                Uri urci = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                Cursor phNu = managedQuery(urci, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+CiD , null , null);
+
+
+                phNu.moveToFirst();
+                boolean ContactType = false;
+                if (phNu.moveToFirst())
+                {
+                    do {
+                        int conType = phNu.getInt(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+
+                        if (conType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                            ContactType = true;
+                        }
+                        else
+                        {
+                            ContactNumber = phNu.getString(phNu.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER ));
+                        }
+
+
+                    }
+                    while (!ContactType && phNu.moveToNext());
+
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getApplicationContext(),
+                        "GOT ERROR " + e.toString(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+
+        }
+
+        setPhoneNumber(ContactNumber, da);
+
+        return ContactNumber;
+
+    }
+
+
+    private void setPhoneNumber(String phNum, Intent phones)
+    {
+        try
+        {
+
+                phNum = PhoneNumberUtils.stripSeparators(phNum);
+
+
+
+        //            if (ContactSwap == 3)
+        //                {
+
+                            EditText et = (EditText)findViewById(R.id.editText1);
+                            et.setHint(phNum);
+                            //et.setText(phNum);
+
+                            et.setText(phNum);
+                            et.refreshDrawableState();
+
+                            ContactPhone = phNum;
+                            ContactSwap = 0;
+                           openContact = null;
+         //               }
+         //           if (ContactSwap == 7)
+         //               {
+
+
+                            EditText ste = (EditText)findViewById(R.id.editText3);
+                            ContactSms = phNum;
+                            ste.setHint(phNum);
+                            //ste.setText(phNum);
+                            ste.setText(phNum);
+
+                            ContactSwap = 0;
+                            contactSms = null;
+       //                 }
+
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "GOT ERROR setPhoneNumber " + e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
+
+       // phones = null;
+       // setButtons();
+    }
+
+
+
+
     private void getNewGps()
     {
     	aLocationL aloc = new aLocationL(); 
@@ -301,25 +634,23 @@ public class app_start extends Activity implements OnCheckedChangeListener
 		// Criteria criteria = new Criteria();
 		 String gR = "gps";
          Location loc;
-    try
-        {
-		 
-		 loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
 	      //	loc.setLatitude(0.0);
 	      //	loc.setAltitude(0.0);
 	      //	loc.setTime(System.currentTimeMillis());
 	     //	LocationProvider gps = lm.getProvider("gps");
-	     	
-	     	
-	     	
-	       	if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) != true)
+
+        try
+        {
+
+
+            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER) != true)
 	       	{
 	       		Toast.makeText( getApplicationContext(), 
 	           			"no gps provider", 
 	           			Toast.LENGTH_LONG ).show();
-	       		try
-	       		{
-	       		
+
 	       			
 	       			//    Intent myIntent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS );
 	       			//    startActivity(myIntent);
@@ -327,89 +658,91 @@ public class app_start extends Activity implements OnCheckedChangeListener
 
 
 	       		 lm.removeUpdates(aloc);
-	    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 77, 11, aloc);
-	    		 
+	    		 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 777, 11, aloc);
+                loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	    
 	  	      	aloc.onLocationChanged(loc);
-	       			
-	       		}
-	       		catch (Exception e) 
-	       		{
-	       			Toast.makeText( getApplicationContext(), 
-		           			"GOT ERROR iNiT GPS 3 "+ e.toString(),
-		           			Toast.LENGTH_LONG ).show();
-	       		}
+
+
 	       	}	
 	       	       	else
 	       	{
 	            lm.removeUpdates(aloc);
 		        // lm.setTestProviderEnabled(gpsProvider, true);
-		         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 777, 11, aloc);
-
-                if (loc != null)
-                 {
+		         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 7777, 11, aloc);
+            //
+                loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 	      	        aloc.onLocationChanged(loc);
+
+            }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText( getApplicationContext(),
+                    "GOT ERROR iNiT GPS 3 "+ e.toString() +" "+e.getCause() ,
+                    Toast.LENGTH_LONG ).show();
+        }
 	              //     	Location ewLoc = aloc.;
 	                    //loc = new Location(0,0);
-                 }
-                    else
-                        {
+          //      if (loc != null)
+          //      {
+          //          else
+          //              {
 
+          //                    lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+         //	                  lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
       	
-                              lm.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
-         	                  lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, loc);
-      	
-      	
-         	                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        }
+         //	                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+         //               }
+         //            }
      // 	gpsLoc = loc.toString();
      // lm. ;
-      	
 
-	    	
-  
-      	
      // 	lm.requestLocationUpdates("gps", 33333, 111, this.locationListener);
-       
-      	
-      	
-	       	}
-	      
-	       	String gotProviders = toString().valueOf(lm.getProviders(true));
-	       	
-	       	String gpsLoc = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
+
+
+                try
+                {
+
+
+                    String gotProviders = toString().valueOf(lm.getProviders(true));
+                    loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+	             	String gpsLoc = "GPS|: Lat: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude()  )
 	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude()  )
 	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER).getAltitude()  ) ;
-	      	
-	      	
-	      	
-	      	
-	    	
-	      	
-	      	String gpsLoc2 = "Passive|: Lat: " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  )
+
+	             	String gpsLoc2 = "Passive|: Lat: " + toString().valueOf(lm.getLastKnownLocation("passive").getLatitude()  )
 	       			+" Long: " + toString().valueOf(lm.getLastKnownLocation("passive").getLongitude()  )
 	       			+" Alt: " + toString().valueOf(lm.getLastKnownLocation("passive").getAltitude()  ) ;
-	      	
-	      	
+
+
+
 	      //  Toast.makeText( getApplicationContext(), gotProviders, Toast.LENGTH_SHORT ).show();
 	      //	Toast.makeText( getApplicationContext(), gpsLoc2, Toast.LENGTH_LONG ).show();
-	      	
-	       	
-	       	String cellData = "|CDMA:"+toString().valueOf(new CdmaCellLocation())
-	      			+" |GSM:" +toString().valueOf(new GsmCellLocation());
-	       	
-	      	Toast.makeText( getApplicationContext(), gotProviders +" | \n"+gpsLoc +" | \n"+gpsLoc2+" | \n"+cellData, Toast.LENGTH_LONG ).show();
+
+            String cdmaLoc = toString().valueOf(new CdmaCellLocation());
+            String gsmLoc = toString().valueOf(new GsmCellLocation());
+
+            String cellLoc ="";
+            if (cdmaLoc.length() > 11)	{	cellLoc += " CDMA:"+cdmaLoc; 	}
+            if (gsmLoc.length() > 11)	{	cellLoc += " |GSM:" +gsmLoc;   	}
+
+                    synchronized(SharedData.globalInstance)
+                    {
+                        SharedData.globalInstance.gpsCoordString =   gpsLoc +" | \n"+cellLoc ;
+                    }
+	      	Toast.makeText( getApplicationContext(), gotProviders +" | \n"+gpsLoc +" | \n"+gpsLoc2+" | \n"+cellLoc, Toast.LENGTH_LONG ).show();
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText( getApplicationContext(),
+                            "GOT ERROR iNiT GPS 4 "+ e.toString(),
+                            Toast.LENGTH_LONG ).show();
+                }
 	      	
 	    //  	Toast.makeText( getApplicationContext(), cellData, Toast.LENGTH_LONG ).show();
-		       
-        }
-            catch (Exception e)
-	        {
-	            	Toast.makeText( getApplicationContext(),
-   	            		"GOT ERROR iNiT GPS 4 "+ e.toString(),
-             			Toast.LENGTH_LONG ).show();
-	        }
-    	
+
+
     }
     
 	@Override
