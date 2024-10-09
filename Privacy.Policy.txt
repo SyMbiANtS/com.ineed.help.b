@@ -1,0 +1,7 @@
+this application 
+
+is not collecting any data from users
+is not getting any data from users or phone
+is not sending any other data elsewhere 
+
+except GPS data provided by user in SMS to phone number provided by user
